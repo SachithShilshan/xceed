@@ -22,3 +22,22 @@ body {
 .hero-accent {
   background: linear-gradient(135deg, rgba(15,98,254,0.12), rgba(124,92,255,0.08));
 }
+
+/* Responsive iframe container */
+.responsive-iframe {
+  position: relative;
+  width: 100%;
+  padding-bottom: 60%; /* Adjust height ratio (60% = landscape) */
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.responsive-iframe iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

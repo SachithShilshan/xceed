@@ -73,16 +73,16 @@ export default function Finance() {
 
           {/* Inline Excel iframe */}
           <div className="rounded-md overflow-hidden border">
-            <iframe
-              src={excelEmbedUrl}
-              width="100%"
-              height="480"
-              frameBorder="0"
-              scrolling="no"
-              allowFullScreen
-              title="Finance Excel Workbook"
-              className="w-full"
-            ></iframe>
+            <div className="responsive-iframe">
+              <iframe
+                src={excelEmbedUrl}
+                frameBorder="0"
+                scrolling="no"
+                allowFullScreen
+                title="Finance Excel Workbook"
+              ></iframe>
+            </div>
+
           </div>
         </div>
 

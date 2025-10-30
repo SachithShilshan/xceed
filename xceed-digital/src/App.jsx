@@ -16,8 +16,6 @@ export default function App() {
     <div className="min-h-screen flex flex-col">
       <Nav />
       <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 flex-1">
-        import DataViewer from "./pages/DataViewer";
-        // ...
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/departments" element={<Departments />} />
