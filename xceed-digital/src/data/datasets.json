@@ -1,0 +1,67 @@
+{
+  "departments": {
+    "finance": {
+      "name": "Finance",
+      "description": "Revenue, P&L, cash flow, forecasts",
+      "folders": [
+        {
+          "id": "f-fin-reports",
+          "name": "Reports",
+          "files": [
+            {
+              "id": "fin-earnings-2025",
+              "name": "Earnings Dashboard Source (SharePoint)",
+              "type": "external",
+              "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0",
+              "description": "Primary Finance DB (SharePoint Excel). Use for earnings dashboards."
+            },
+            {
+              "id": "fin-local-sample",
+              "name": "finance-db-sample.xlsx",
+              "type": "local",
+              "url": "/data/finance/finance-db-sample.xlsx",
+              "description": "Local sample copy (add file to public/data/finance/finance-db-sample.xlsx for download)."
+            }
+          ]
+        },
+        {
+          "id": "f-fin-archives",
+          "name": "Archives",
+          "files": []
+        }
+      ]
+    },
+
+    "hr": {
+      "name": "HR",
+      "description": "Headcount, attrition, payroll",
+      "folders": [
+        {
+          "id": "f-hr-reports",
+          "name": "Reports",
+          "files": [
+            {
+              "id": "hr-headcount-sample",
+              "name": "hr-headcount-sample.xlsx",
+              "type": "local",
+              "url": "/data/hr/hr-headcount-sample.xlsx",
+              "description": "Sample HR dataset. (Add to public/data/hr/)."
+            }
+          ]
+        }
+      ]
+    },
+
+    "operations": {
+      "name": "Operations",
+      "description": "SLA, delivery metrics",
+      "folders": [
+        {
+          "id": "f-op-reports",
+          "name": "Reports",
+          "files": []
+        }
+      ]
+    }
+  }
+}

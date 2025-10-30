@@ -1,53 +1,171 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import PowerBIEmbed from "../components/PowerBIEmbed";
 
-export default function Finance(){
-  const embedUrl = "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true";
+export default function Finance() {
+  // Power BI dashboard embed URL
+  const embedUrl =
+    "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true";
+
+  // New OneDrive Excel embed URL
+  const excelEmbedUrl =
+    "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0";
+
+  const lastRefreshed = "Oct 30, 2025";
 
   return (
-    <>
-      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:16}}>
-        <div>
-          <h2 style={{margin:0}}>Finance</h2>
-          <div className="small">Earnings dashboard & finance reports</div>
-        </div>
-        <div className="small">Last refreshed: Oct 28, 2025</div>
-      </div>
+    <div className="grid lg:grid-cols-3 gap-6">
+      {/* Main area */}
+      <div className="lg:col-span-2 space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-slate-900">Finance</h1>
+            <p className="text-sm text-slate-500 mt-1">
+              Earnings dashboard, revenue analysis & finance datasets
+            </p>
+          </div>
 
-      <div className="dept-grid">
-        <div>
-          <PowerBIEmbed title="Earnings Dashboard" src={embedUrl} />
+          <div className="flex items-center gap-3">
+            <div className="text-sm text-slate-500">
+              Last refreshed:{" "}
+              <span className="font-medium text-slate-700">
+                {lastRefreshed}
+              </span>
+            </div>
 
-          <div style={{height:18}} />
-
-          <div className="card">
-            <div style={{fontWeight:700, marginBottom:8}}>Reports</div>
-            <div className="small">Available downloads & quick links</div>
-            <ul style={{marginTop:12}}>
-              <li><a href={embedUrl} target="_blank" rel="noreferrer">Open full interactive report (Power BI)</a></li>
-              <li><a href="#" onClick={(e)=>{e.preventDefault(); alert("You can add PDF export links or CSV downloads here.")}}>Download monthly P&L (PDF)</a></li>
-            </ul>
+            <Link
+              to="/data-manager?dept=finance"
+              className="inline-flex items-center px-3 py-2 rounded-md border bg-white hover:shadow-sm text-sm text-slate-700"
+            >
+              Go to Dataset
+            </Link>
           </div>
         </div>
 
-        <aside>
-          <div className="card">
-            <div style={{fontWeight:700}}>Quick actions</div>
-            <div style={{marginTop:10}}>
-              <button className="btn" style={{width:"100%", marginBottom:8}} onClick={()=>window.open(embedUrl, "_blank")}>Open report in Power BI</button>
-              <button className="btn" style={{width:"100%"}} onClick={()=>alert("Automation endpoint is backend-led; add service to trigger automations.")}>Trigger month-end automation</button>
+        {/* Power BI embed */}
+        <PowerBIEmbed title="Earnings Dashboard" src={embedUrl} />
+
+        {/* Excel embed (OneDrive) */}
+        <div className="card p-4">
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <div className="font-semibold text-slate-900">
+                Finance Data Workbook
+              </div>
+              <div className="text-sm text-slate-500">
+                OneDrive Excel embedded inside the page (editable if you have
+                permission)
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <a
+                href={excelEmbedUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="px-3 py-2 rounded-md border text-sm"
+              >
+                Open in new tab
+              </a>
             </div>
           </div>
 
-          <div style={{height:14}}/>
-          <div className="card">
-            <div style={{fontWeight:700}}>Notes</div>
-            <div className="small" style={{marginTop:8}}>
-              Use the filters inside the embedded report to change time periods and branches. If the embed prompts for login, sign-in with your Power BI account.
+          {/* Inline Excel iframe */}
+          <div className="rounded-md overflow-hidden border">
+            <iframe
+              src={excelEmbedUrl}
+              width="100%"
+              height="480"
+              frameBorder="0"
+              scrolling="no"
+              allowFullScreen
+              title="Finance Excel Workbook"
+              className="w-full"
+            ></iframe>
+          </div>
+        </div>
+
+        {/* Reports */}
+        <div className="card p-4">
+          <div className="font-semibold text-slate-900 mb-2">Reports</div>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-md border">
+              <div>
+                <div className="font-medium">Monthly P&L (PDF)</div>
+                <div className="text-xs text-slate-500">
+                  Generated from finance dataset
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  className="px-3 py-1 text-sm rounded-md border"
+                  onClick={() =>
+                    alert("Export feature not yet implemented in this demo.")
+                  }
+                >
+                  Download
+                </button>
+              </div>
             </div>
           </div>
-        </aside>
+        </div>
       </div>
-    </>
+
+      {/* Sidebar */}
+      <aside className="space-y-6">
+        <div className="card p-4">
+          <div className="font-semibold text-slate-900">Quick actions</div>
+          <div className="mt-3 space-y-2">
+            <button
+              onClick={() => window.open(embedUrl, "_blank")}
+              className="w-full px-3 py-2 rounded-md border text-sm"
+            >
+              Open in Power BI
+            </button>
+
+            <button
+              onClick={() =>
+                alert(
+                  "Trigger automation requires backend integration (e.g., Power Automate)."
+                )
+              }
+              className="w-full px-3 py-2 rounded-md border text-sm"
+            >
+              Trigger month-end automation
+            </button>
+
+            <Link
+              to="/data-manager?dept=finance"
+              className="w-full block text-center px-3 py-2 rounded-md border text-sm"
+            >
+              Manage datasets
+            </Link>
+          </div>
+        </div>
+
+        <div className="card p-4">
+          <div className="font-semibold text-slate-900">Notes</div>
+          <p className="text-sm text-slate-500 mt-2">
+            The embedded Excel workbook allows in-page viewing and, if you are
+            signed in to Microsoft 365, editing. Changes save automatically to
+            OneDrive.
+          </p>
+        </div>
+
+        <div className="card p-4">
+          <div className="font-semibold text-slate-900">Contact</div>
+          <p className="text-sm text-slate-500 mt-2">
+            For dashboard requests or data issues, email{" "}
+            <a
+              className="text-xceed-500 underline"
+              href="mailto:hello@xceed.example"
+            >
+              hello@xceed.example
+            </a>
+          </p>
+        </div>
+      </aside>
+    </div>
   );
 }
