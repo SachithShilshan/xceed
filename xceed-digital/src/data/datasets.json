@@ -1,67 +1,29 @@
 {
-  "departments": {
-    "finance": {
-      "name": "Finance",
-      "description": "Revenue, P&L, cash flow, forecasts",
-      "folders": [
-        {
-          "id": "f-fin-reports",
-          "name": "Reports",
-          "files": [
-            {
-              "id": "fin-earnings-2025",
-              "name": "Earnings Dashboard Source (SharePoint)",
-              "type": "external",
-              "url": "https://1drv.ms/x/c/2c9d502198273e67/IQT3gHPLCO2ZQYIyfl86CZWKAccO25Prnc0w7D6oRdZ-fjQ", 
-              "description": "Primary Finance DB (SharePoint Excel). Use for earnings dashboards."
-            },
-            {
-              "id": "fin-local-sample",
-              "name": "finance-db-sample.xlsx",
-              "type": "local",
-              "url": "/data/finance/finance-db-sample.xlsx",
-              "description": "Local sample copy (add file to public/data/finance/finance-db-sample.xlsx for download)."
-            }
-          ]
-        },
-        {
-          "id": "f-fin-archives",
-          "name": "Archives",
-          "files": []
+  "company": {
+    "Executive / Management": {
+      "Strategy": {
+        "Company KPI Dashboard": {
+          "dashId": "company-kpi",
+          "dataset": {
+            "files": [
+              {
+                "id": "company-kpi-table1",
+                "name": "Company KPI Table 1 (OneDrive)",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0",
+                "description": "Main KPI metrics dataset"
+              },
+              {
+                "id": "company-kpi-table2",
+                "name": "Company KPI Table 2 (OneDrive)",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Supplementary financial KPIs"
+              }
+            ]
+          }
         }
-      ]
-    },
-
-    "hr": {
-      "name": "HR",
-      "description": "Headcount, attrition, payroll",
-      "folders": [
-        {
-          "id": "f-hr-reports",
-          "name": "Reports",
-          "files": [
-            {
-              "id": "hr-headcount-sample",
-              "name": "hr-headcount-sample.xlsx",
-              "type": "local",
-              "url": "/data/hr/hr-headcount-sample.xlsx",
-              "description": "Sample HR dataset. (Add to public/data/hr/)."
-            }
-          ]
-        }
-      ]
-    },
-
-    "operations": {
-      "name": "Operations",
-      "description": "SLA, delivery metrics",
-      "folders": [
-        {
-          "id": "f-op-reports",
-          "name": "Reports",
-          "files": []
-        }
-      ]
+      }
     }
   }
 }

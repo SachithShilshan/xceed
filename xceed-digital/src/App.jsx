@@ -9,6 +9,8 @@ import HR from "./pages/HR";
 import Operations from "./pages/Operations";
 import DataViewer from "./pages/DataViewer";
 import DataManager from "./pages/DataManager";
+import CompanyKPI from "./pages/CompanyKPI";
+
 // ... other imports
 
 export default function App() {
@@ -24,6 +26,7 @@ export default function App() {
           <Route path="/departments/operations" element={<Operations />} />
           <Route path="/data-manager" element={<DataManager />} />
           <Route path="/data-viewer" element={<DataViewer />} />   {/* <-- new */}
+          <Route path="/dash/company-kpi" element={<CompanyKPI />} />
         </Routes>
 
       </main>
