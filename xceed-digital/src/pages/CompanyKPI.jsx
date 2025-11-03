@@ -10,7 +10,7 @@ export default function CompanyKPI() {
   const lastRefreshed = "Oct 30, 2025";
 
   return (
-    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="w-full px-4 md:px-6 lg:px-10">
       <div className="grid grid-cols-12 gap-6">
         {/* Sidebar */}
         <aside className="col-span-12 lg:col-span-3">

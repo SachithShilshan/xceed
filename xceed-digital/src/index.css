@@ -41,3 +41,8 @@ body {
   height: 100%;
   border: 0;
 }
+
+.site-main {
+  transition: padding-top 0.25s ease;
+}
+

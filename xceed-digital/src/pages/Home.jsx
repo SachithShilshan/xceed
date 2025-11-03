@@ -1,7 +1,25 @@
+// src/pages/Home.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function Home(){
+/**
+ * Home — updated so each department tile links to a department page
+ * Map department display names to slugs for clean URLs.
+ */
+
+const departments = [
+  { name: "Executive / Management", slug: "executive" },
+  { name: "Human Resources (HR)", slug: "hr" },
+  { name: "Finance & Accounting", slug: "finance" },
+  { name: "Operations", slug: "operations" },
+  { name: "Sales", slug: "sales" },
+  { name: "Marketing", slug: "marketing" },
+  { name: "IT / Technology", slug: "it" },
+  { name: "Customer Service", slug: "customer-service" },
+  { name: "Maintenance", slug: "maintenance" }
+];
+
+export default function Home() {
   return (
     <div className="space-y-8">
       <section className="bg-white card p-8 hero-accent">
@@ -45,20 +63,15 @@ export default function Home(){
       </section>
 
       <section>
-        <h2 className="text-lg font-semibold mb-4">Departments</h2>
-        <div className="grid sm:grid-cols-3 gap-6">
-          <Link to="/departments/finance" className="p-5 card hover:shadow-lg transition">
-            <div className="font-semibold">Finance</div>
-            <div className="text-sm text-slate-500 mt-1">Revenue, P&L, forecasts</div>
-          </Link>
-          <Link to="/departments/hr" className="p-5 card hover:shadow-lg transition">
-            <div className="font-semibold">HR</div>
-            <div className="text-sm text-slate-500 mt-1">Headcount, attrition</div>
-          </Link>
-          <Link to="/departments/operations" className="p-5 card hover:shadow-lg transition">
-            <div className="font-semibold">Operations</div>
-            <div className="text-sm text-slate-500 mt-1">SLA & delivery metrics</div>
-          </Link>
+        <h2 className="text-lg font-semibold mb-3">Departments</h2>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {departments.map(d => (
+            <Link key={d.slug} to={`/departments/${d.slug}`} className="card p-4 hover:shadow-lg transition">
+              <div className="font-semibold">{d.name}</div>
+              <div className="text-sm text-slate-500 mt-1">Explore dashboards & datasets</div>
+              <div className="mt-3 text-xs text-slate-400">Open {d.name}</div>
+            </Link>
+          ))}
         </div>
       </section>
     </div>

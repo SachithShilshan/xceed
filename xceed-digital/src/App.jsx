@@ -1,34 +1,32 @@
+// src/App.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Nav from "./components/Nav";
+import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Departments from "./pages/Departments";
-import Finance from "./pages/Finance";
-import HR from "./pages/HR";
-import Operations from "./pages/Operations";
-import DataViewer from "./pages/DataViewer";
+import DepartmentPage from "./pages/DepartmentPage";
 import DataManager from "./pages/DataManager";
+import DashboardPlaceholder from "./pages/DashboardPlaceholder";
 import CompanyKPI from "./pages/CompanyKPI";
-
-// ... other imports
+import useHeaderOffset from "./hooks/useHeaderOffset";
 
 export default function App() {
+  // sync main padding to header height
+  useHeaderOffset(); // defaults to #site-header and .site-main
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <Nav />
-      <main className="max-w-6xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 flex-1">
+    <div className="min-h-screen flex flex-col bg-slate-50">
+      <Header />
+      <main className="site-main max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 w-full flex-1">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/departments" element={<Departments />} />
-          <Route path="/departments/finance" element={<Finance />} />
-          <Route path="/departments/hr" element={<HR />} />
-          <Route path="/departments/operations" element={<Operations />} />
+          <Route path="/departments/:deptSlug" element={<DepartmentPage />} />
           <Route path="/data-manager" element={<DataManager />} />
-          <Route path="/data-viewer" element={<DataViewer />} />   {/* <-- new */}
           <Route path="/dash/company-kpi" element={<CompanyKPI />} />
+          <Route path="/dash/:id" element={<DashboardPlaceholder />} />
         </Routes>
-
       </main>
       <Footer />
     </div>
