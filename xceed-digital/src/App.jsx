@@ -26,6 +26,10 @@ export default function App() {
           <Route path="/data-manager" element={<DataManager />} />
           <Route path="/dash/company-kpi" element={<CompanyKPI />} />
           <Route path="/dash/:id" element={<DashboardPlaceholder />} />
+          <Route path="/departments" element={<Departments />} />
+          
+         
+
         </Routes>
       </main>
       <Footer />

@@ -1,24 +1,112 @@
 {
   "company": {
+    "Finance & Accounting": {
+      "Accounts Payable": {
+        "AP Aging Dashboard": {
+          "dashId": "AP-Aging-Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
+          "description": "Accounts Payable",
+          "dataset": {
+            "files": [
+              {
+                "id": "AP-Aging-Dashboard",
+                "name": "AP-Aging-Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0",
+                "description": "Local sample file"
+              },
+              {
+                "id": "AP-Aging-Dashboard-table1",
+                "name": "AP-Aging-Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Main KPI metrics"
+              }
+            ]
+          }
+        }
+      },
+      "Accounts Receivable": {
+        "AR Aging Dashboard": {
+          "dashId": "AR-Aging -ashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
+          "description": "AR Aging Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "AR-Aging -ashboard-table2",
+                "name": "AR-Aging -ashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Supplementary KPIs"
+              }
+            ]
+          }
+        }
+      },
+      "Budgeting & Reporting": {
+        "Budget vs Actual Dashboard": {
+          "dashId": "budget-vs-actual",
+          "type": "PowerBI",
+          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
+          "description": "Budget vs actual across business units",
+          "dataset": {
+            "files": [
+              {
+                "id": "budget-source-2025",
+                "name": "budget_vs_actual_source.xlsx",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      }
+    },
     "Executive / Management": {
       "Strategy": {
         "Company KPI Dashboard": {
           "dashId": "company-kpi",
+          "type": "PowerBI",
+          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
+          "description": "Company-level KPIs",
           "dataset": {
             "files": [
               {
                 "id": "company-kpi-table1",
                 "name": "Company KPI Table 1 (OneDrive)",
                 "type": "external",
-                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0",
-                "description": "Main KPI metrics dataset"
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Main KPI metrics"
               },
               {
                 "id": "company-kpi-table2",
                 "name": "Company KPI Table 2 (OneDrive)",
                 "type": "external",
                 "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "description": "Supplementary financial KPIs"
+                "description": "Supplementary KPIs"
+              }
+            ]
+          }
+        }
+      },
+      "Risk & Governance": {
+        "Risk & Compliance Dashboard": {
+          "dashId": "Risk-Compliance-Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
+          "description": "Risk & Compliance Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "Risk-Compliance-Dashboard",
+                "name": "Risk-Compliance-Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
               }
             ]
           }

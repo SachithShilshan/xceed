@@ -1,25 +1,12 @@
 // src/pages/Home.jsx
 import React from "react";
 import { Link } from "react-router-dom";
-
-/**
- * Home — updated so each department tile links to a department page
- * Map department display names to slugs for clean URLs.
- */
-
-const departments = [
-  { name: "Executive / Management", slug: "executive" },
-  { name: "Human Resources (HR)", slug: "hr" },
-  { name: "Finance & Accounting", slug: "finance" },
-  { name: "Operations", slug: "operations" },
-  { name: "Sales", slug: "sales" },
-  { name: "Marketing", slug: "marketing" },
-  { name: "IT / Technology", slug: "it" },
-  { name: "Customer Service", slug: "customer-service" },
-  { name: "Maintenance", slug: "maintenance" }
-];
+import datasets from "../data/datasets.json";
 
 export default function Home() {
+  // derive departments list from manifest (keys)
+  const departments = Object.keys((datasets && datasets.company) || {});
+
   return (
     <div className="space-y-8">
       <section className="bg-white card p-8 hero-accent">
@@ -65,11 +52,11 @@ export default function Home() {
       <section>
         <h2 className="text-lg font-semibold mb-3">Departments</h2>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {departments.map(d => (
-            <Link key={d.slug} to={`/departments/${d.slug}`} className="card p-4 hover:shadow-lg transition">
-              <div className="font-semibold">{d.name}</div>
+          {departments.map((deptKey) => (
+            <Link key={deptKey} to={`/departments/${encodeURIComponent(deptKey)}`} className="card p-4 hover:shadow-lg transition">
+              <div className="font-semibold">{deptKey}</div>
               <div className="text-sm text-slate-500 mt-1">Explore dashboards & datasets</div>
-              <div className="mt-3 text-xs text-slate-400">Open {d.name}</div>
+              <div className="mt-3 text-xs text-slate-400">Open {deptKey}</div>
             </Link>
           ))}
         </div>

@@ -1,10 +1,29 @@
+// src/components/Footer.jsx
 import React from "react";
+import { Link } from "react-router-dom";
 
-export default function Footer(){
+export default function Footer() {
   return (
-    <footer className="bg-white border-t border-slate-100">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm text-slate-500">
-        © {new Date().getFullYear()} Xceed — Transforming data into clarity, action & growth. • <a href="mailto:hello@xceed.example" className="text-slate-600 underline">hello@xceed.example</a>
+    <footer className="mt-10 border-t bg-white">
+      <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <div className="font-semibold text-lg">Xceed Digital</div>
+            <div className="text-sm text-slate-500 mt-1">Data · Automation · AI</div>
+            <div className="text-xs text-slate-400 mt-3">© {new Date().getFullYear()} Xceed Digital. All rights reserved.</div>
+          </div>
+
+          <div className="flex gap-6 items-center">
+            <nav className="flex gap-4">
+              <Link to="/" className="text-sm text-slate-600 hover:text-slate-900">Home</Link>
+              <Link to="/departments" className="text-sm text-slate-600 hover:text-slate-900">Departments</Link>
+              <Link to="/data-manager" className="text-sm text-slate-600 hover:text-slate-900">Data Manager</Link>
+              <Link to="/docs" className="text-sm text-slate-600 hover:text-slate-900">Docs</Link>
+            </nav>
+
+            <a href="mailto:hello@xceed.example" className="px-3 py-2 rounded-md border text-sm">Contact</a>
+          </div>
+        </div>
       </div>
     </footer>
   );
