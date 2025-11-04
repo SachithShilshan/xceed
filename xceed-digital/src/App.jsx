@@ -8,7 +8,7 @@ import Departments from "./pages/Departments";
 import DepartmentPage from "./pages/DepartmentPage";
 import DataManager from "./pages/DataManager";
 import DashboardPlaceholder from "./pages/DashboardPlaceholder";
-import CompanyKPI from "./pages/CompanyKPI";
+
 import useHeaderOffset from "./hooks/useHeaderOffset";
 
 export default function App() {
@@ -24,7 +24,7 @@ export default function App() {
           <Route path="/departments" element={<Departments />} />
           <Route path="/departments/:deptSlug" element={<DepartmentPage />} />
           <Route path="/data-manager" element={<DataManager />} />
-          <Route path="/dash/company-kpi" element={<CompanyKPI />} />
+  
           <Route path="/dash/:id" element={<DashboardPlaceholder />} />
           <Route path="/departments" element={<Departments />} />
           

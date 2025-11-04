@@ -106,12 +106,12 @@ export default function DataManager() {
 
   return (
     <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-12 gap-6">
-        <aside className="col-span-12 lg:col-span-3 min-w-0 lg:w-64">
-          <Sidebar />
-        </aside>
-
-        <main className="col-span-12 lg:col-span-9 min-w-0">
+          <div className="grid grid-cols-12 gap-6">
+            <aside className="col-span-12 lg:col-span-3">
+              <Sidebar />
+            </aside>
+    
+            <main className="col-span-12 lg:col-span-9 space-y-6">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-semibold text-slate-900">Data Manager</h1>
