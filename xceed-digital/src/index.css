@@ -46,3 +46,16 @@ body {
   transition: padding-top 0.25s ease;
 }
 
+:root{
+  --accent: #0f62fe; /* xceed-500 */
+  --card-bg: #ffffff;
+  --muted: #6b7280;
+}
+.dark {
+  --card-bg: #0b1220;
+  --muted: #9aa4b2;
+}
+
+:root {
+  --header-height: 80px; /* match Header.jsx h-20 (80px) */
+}

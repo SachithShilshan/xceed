@@ -52,7 +52,7 @@ export default function Header() {
               <BellIcon className="w-6 h-6 text-slate-700" />
             </button>
 
-            <Link to="/departments/finance" className="hidden sm:inline-flex items-center px-5 py-2.5 rounded-md bg-xceed-500 hover:bg-xceed-600 text-white text-[15px] font-semibold shadow-sm transition">
+            <Link to="/departments" className="hidden sm:inline-flex items-center px-5 py-2.5 rounded-md bg-xceed-500 hover:bg-xceed-600 text-white text-[15px] font-semibold shadow-sm transition">
               Open Portal
             </Link>
 

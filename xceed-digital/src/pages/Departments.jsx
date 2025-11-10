@@ -10,10 +10,8 @@ export default function Departments() {
 
   return (
     <div className="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-12 gap-6">
-        <aside className="col-span-12 lg:col-span-3">
-          <Sidebar />
-        </aside>
+      <div className="space-y-6">
+        
 
         <main className="col-span-12 lg:col-span-9 space-y-6">
           <div>

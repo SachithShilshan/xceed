@@ -1,22 +1,24 @@
 // src/components/Sidebar.jsx
 import React, { useEffect, useMemo, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import datasets from "../data/datasets.json";
 import {
   ChevronDownIcon,
   ChevronRightIcon,
   FolderIcon,
-  ChartBarIcon,
   BuildingLibraryIcon,
   Squares2X2Icon,
-  MagnifyingGlassIcon
+  MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 
-const LS_KEY = "xceed_sidebar_expanded_v1";
+const LS_KEY = "xceed_sidebar_expanded_v4";
 
-function slug(s) {
-  return encodeURIComponent(s);
-}
+/**
+ * Sidebar — when clicking a Section:
+ *  - navigates to /departments/:dept?section=:sectionName
+ *  - collapses other sections and ensures clicked section is open
+ *  - still supports chevron toggles and searching
+ */
 
 function buildStructure(manifest) {
   const out = [];
@@ -27,66 +29,75 @@ function buildStructure(manifest) {
       const dashNames = Object.keys(dept[sectionName] || {});
       const dashboards = dashNames.map((dashName) => {
         const dashObj = dept[sectionName][dashName];
-        const fileCount = (dashObj?.dataset?.files || []).length;
-        const id = dashObj?.dashId || dashName;
         return {
-          id,
+          id: dashObj?.dashId || dashName,
           name: dashName,
-          route: `/dash/${slug(id)}`,
-          fileCount
+          route: `/dash/${encodeURIComponent(dashObj?.dashId || dashName)}`,
+          fileCount: (dashObj?.dataset?.files || []).length,
         };
       });
       return { sectionName, dashboards, dashCount: dashboards.length };
     });
-    const totalDash = sections.reduce((s, x) => s + x.dashCount, 0);
-    out.push({ deptName, sections, totalDash });
+    out.push({ deptName, sections });
   });
-
   return out;
 }
 
 export default function Sidebar({ compact = false }) {
   const location = useLocation();
-  const structure = useMemo(() => buildStructure(datasets), [datasets]);
+  const [searchParams] = useSearchParams();
+  const sectionQuery = searchParams.get("section") ? decodeURIComponent(searchParams.get("section")) : null;
+  const activeDeptFromPath = useMemo(() => {
+    const m = location.pathname.match(/^\/departments\/(.+)/);
+    return m ? decodeURIComponent(m[1]) : null;
+  }, [location.pathname]);
 
-  // Load expanded state from localStorage
+  const structure = useMemo(() => buildStructure(datasets), []);
   const [expanded, setExpanded] = useState(() => {
     try {
-      const raw = localStorage.getItem(LS_KEY);
-      return raw ? JSON.parse(raw) : {};
+      return JSON.parse(localStorage.getItem(LS_KEY)) || {};
     } catch {
       return {};
     }
   });
   const [query, setQuery] = useState("");
 
-  // === Handle HashRouter vs BrowserRouter ===
-  // If using HashRouter the path lives in location.hash (e.g. "#/dash/xxx")
-  // Otherwise use location.pathname (e.g. "/dash/xxx")
-  const currentPath = useMemo(() => {
-    if (location.hash && location.hash.startsWith("#")) {
-      return location.hash.replace(/^#/, "");
-    }
-    return location.pathname || "/";
-  }, [location.pathname, location.hash]);
-
-  // determine active dash id from route (supports both hash and pathname)
+  // active dashboard id from /dash/:id
   const activeDashId = useMemo(() => {
-    const m = currentPath.match(/^\/dash\/(.+)/);
+    const m = location.pathname.match(/^\/dash\/(.+)/);
     return m ? decodeURIComponent(m[1]) : null;
-  }, [currentPath]);
+  }, [location.pathname]);
 
-  // auto-expand parents of activeDash on first load
+  // when URL includes ?section=..., expand that section and collapse siblings
+  useEffect(() => {
+    if (!sectionQuery) return;
+    // find which dept contains this section and expand only that section
+    for (const dept of structure) {
+      const found = dept.sections.find((s) => s.sectionName === sectionQuery);
+      if (found) {
+        const newState = {};
+        // open department
+        newState[dept.deptName] = true;
+        // open that section only (and close others)
+        newState[`${dept.deptName}::${found.sectionName}`] = true;
+        try { localStorage.setItem(LS_KEY, JSON.stringify(newState)); } catch {}
+        setExpanded(newState);
+        return;
+      }
+    }
+  }, [sectionQuery, structure]);
+
+  // when active dashboard changes, expand its parents (non-destructive)
   useEffect(() => {
     if (!activeDashId) return;
     for (const dept of structure) {
-      for (const section of dept.sections) {
-        for (const dash of section.dashboards) {
-          if (dash.id === activeDashId || dash.route === currentPath) {
+      for (const sec of dept.sections) {
+        for (const dash of sec.dashboards) {
+          if (dash.id === activeDashId) {
             setExpanded((prev) => {
               const next = { ...prev };
               next[dept.deptName] = true;
-              next[`${dept.deptName}::${section.sectionName}`] = true;
+              next[`${dept.deptName}::${sec.sectionName}`] = true;
               try { localStorage.setItem(LS_KEY, JSON.stringify(next)); } catch {}
               return next;
             });
@@ -95,7 +106,7 @@ export default function Sidebar({ compact = false }) {
         }
       }
     }
-  }, [activeDashId, structure, currentPath]);
+  }, [activeDashId, structure]);
 
   useEffect(() => {
     try { localStorage.setItem(LS_KEY, JSON.stringify(expanded)); } catch {}
@@ -109,23 +120,39 @@ export default function Sidebar({ compact = false }) {
     setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
   }
 
-  function matches(q, text) {
-    return text.toLowerCase().includes(q.toLowerCase());
+  // Clicking a section label should navigate AND focus that section in sidebar:
+  function onSectionClick(deptName, sectionName) {
+    // set expanded to only this section within the dept, collapse siblings
+    const newState = { ...expanded };
+    newState[deptName] = true;
+    // collapse other sections for this dept
+    (structure.find(s => s.deptName === deptName)?.sections || []).forEach(sec => {
+      newState[`${deptName}::${sec.sectionName}`] = false;
+    });
+    newState[`${deptName}::${sectionName}`] = true;
+    setExpanded(newState);
+    try { localStorage.setItem(LS_KEY, JSON.stringify(newState)); } catch {}
+    // navigation handled by Link (we use Link for section label)
   }
 
+  // search filter
   const filtered = useMemo(() => {
     if (!query.trim()) return structure;
     const q = query.trim().toLowerCase();
     return structure
       .map((dept) => {
         const sections = dept.sections
-          .map((section) => {
-            const dashboards = section.dashboards.filter((d) => matches(q, d.name) || matches(q, section.sectionName) || matches(q, dept.deptName));
+          .map((sec) => {
+            const dashboards = sec.dashboards.filter((d) =>
+              d.name.toLowerCase().includes(q) ||
+              sec.sectionName.toLowerCase().includes(q) ||
+              dept.deptName.toLowerCase().includes(q)
+            );
             if (dashboards.length === 0) return null;
-            return { ...section, dashboards };
+            return { ...sec, dashboards };
           })
           .filter(Boolean);
-        if (sections.length === 0 && matches(q, dept.deptName)) {
+        if (sections.length === 0 && dept.deptName.toLowerCase().includes(q)) {
           return dept;
         }
         if (sections.length === 0) return null;
@@ -135,13 +162,13 @@ export default function Sidebar({ compact = false }) {
   }, [structure, query]);
 
   const Badge = ({ children }) => (
-    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
+    <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-slate-100 text-slate-600">
       {children}
     </span>
   );
 
   return (
-    <aside className={`sticky top-20 ${compact ? "w-48" : "w-full"}`}>
+    <aside className={`${compact ? "w-48" : "w-full"} h-full`}>
       <div className="card p-3 mb-4">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
@@ -150,11 +177,6 @@ export default function Sidebar({ compact = false }) {
               <div className="text-sm font-semibold">Company</div>
               <div className="text-xs text-slate-400">Departments & dashboards</div>
             </div>
-          </div>
-
-          <div className="hidden sm:flex items-center gap-2">
-            <Link to="/data-manager" className="px-2 py-1 rounded-md border text-xs">Data</Link>
-            <Link to="/docs" className="px-2 py-1 rounded-md border text-xs">Docs</Link>
           </div>
         </div>
 
@@ -166,108 +188,116 @@ export default function Sidebar({ compact = false }) {
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search dashboards, sections..."
+              placeholder="Search dashboards..."
               className="placeholder:text-slate-400 block w-full bg-white border rounded-md py-2 pl-9 pr-3 text-sm focus:outline-none focus:ring-1 focus:ring-xceed-300"
             />
           </label>
         </div>
       </div>
 
-      <nav aria-label="Company navigation" className="space-y-3 px-1">
-        {filtered.length === 0 ? (
-          <div className="text-sm text-slate-500 px-3">No results</div>
-        ) : (
-          filtered.map((dept) => {
-            const deptKey = dept.deptName;
-            const deptOpen = !!expanded[deptKey];
+      <nav aria-label="Sidebar navigation" className="space-y-2 px-1">
+        {filtered.length === 0 && <div className="text-sm text-slate-500 px-3">No matches found</div>}
 
-            return (
-              <div key={deptKey} className="group">
-                <div className="flex items-center justify-between px-2">
-                  <button
-                    onClick={() => toggleDept(deptKey)}
-                    className="flex items-center gap-2 w-full text-left py-2 px-2 rounded-md hover:bg-slate-50"
-                  >
-                    <div className="flex items-center gap-2">
-                      <FolderIcon className="w-4 h-4 text-slate-600" />
-                      <div>
-                        <div className="text-sm font-medium text-slate-800">{deptKey}</div>
-                        <div className="text-xs text-slate-400">{dept.sections.length} sections • {dept.totalDash} dashboards</div>
-                      </div>
+        {filtered.map((dept) => {
+          const deptOpen = !!expanded[dept.deptName];
+          const deptIsActive = activeDeptFromPath === dept.deptName || dept.sections.some(s => s.dashboards.some(d => d.id === activeDashId));
+
+          return (
+            <div key={dept.deptName}>
+              {/* Department header */}
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => toggleDept(dept.deptName)}
+                  className="p-0 mr-2 rounded-md hover:bg-slate-50"
+                  aria-label={`Toggle ${dept.deptName}`}
+                >
+                  {deptOpen ? <ChevronDownIcon className="w-4 h-4 text-slate-500" /> : <ChevronRightIcon className="w-4 h-4 text-slate-500" />}
+                </button>
+
+                <Link
+                  to={`/departments/${encodeURIComponent(dept.deptName)}`}
+                  className={`flex-1 flex items-center justify-between px-2 py-2 rounded-md hover:bg-slate-50 ${deptIsActive ? "bg-xceed-50" : ""}`}
+                >
+                  <div className="flex items-center gap-2">
+                    <FolderIcon className="w-4 h-4 text-slate-600" />
+                    <div>
+                      <div className="text-[14px] font-medium text-slate-800">{dept.deptName}</div>
+                      <div className="text-[11px] text-slate-400">{dept.sections.length} sections</div>
                     </div>
-
-                    <div className="flex items-center gap-2">
-                      <Badge>{dept.totalDash}</Badge>
-                      {deptOpen ? <ChevronDownIcon className="w-4 h-4 text-slate-500" /> : <ChevronRightIcon className="w-4 h-4 text-slate-500" />}
-                    </div>
-                  </button>
-                </div>
-
-                {deptOpen && (
-                  <div className="mt-2 pl-4 space-y-2">
-                    {dept.sections.map((sec) => {
-                      const secKey = `${deptKey}::${sec.sectionName}`;
-                      const secOpen = !!expanded[secKey];
-                      return (
-                        <div key={secKey} className="group">
-                          <div className="flex items-center justify-between">
-                            <button
-                              onClick={() => toggleSection(deptKey, sec.sectionName)}
-                              className="flex items-center gap-2 w-full text-left py-1 px-1 rounded-md hover:bg-slate-50"
-                            >
-                              <div className="flex items-center gap-2">
-                                <Squares2X2Icon className="w-4 h-4 text-slate-500" />
-                                <div>
-                                  <div className="text-sm text-slate-700">{sec.sectionName}</div>
-                                  <div className="text-xs text-slate-400">{sec.dashCount} dashboards</div>
-                                </div>
-                              </div>
-
-                              <div className="flex items-center gap-2">
-                                <Badge>{sec.dashCount}</Badge>
-                                {secOpen ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
-                              </div>
-                            </button>
-                          </div>
-
-                          {secOpen && (
-                            <div className="mt-1 ml-6 space-y-1">
-                              {sec.dashboards.map((dash) => {
-                                const isActive = activeDashId === dash.id || currentPath === dash.route;
-                                return (
-                                  <Link
-                                    key={dash.id}
-                                    to={dash.route}
-                                    className={`flex items-center justify-between gap-2 px-2 py-1 rounded-md text-sm ${
-                                      isActive ? "bg-xceed-500/10 border-l-2 border-xceed-500 text-xceed-700 font-semibold" : "text-slate-700 hover:bg-slate-50"
-                                    }`}
-                                  >
-                                    <div className="truncate">
-                                      <div className="truncate">{dash.name}</div>
-                                      <div className="text-xs text-slate-400">{dash.fileCount} file{dash.fileCount !== 1 ? "s" : ""}</div>
-                                    </div>
-                                    <div className="text-xs text-slate-400"></div>
-                                  </Link>
-                                );
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
                   </div>
-                )}
+                  <Badge>{dept.sections.reduce((s, sec) => s + sec.dashCount, 0)}</Badge>
+                </Link>
               </div>
-            );
-          })
-        )}
+
+              {/* Sections */}
+              {deptOpen && (
+                <div className="mt-1 pl-4 space-y-1">
+                  {dept.sections.map((sec) => {
+                    const secKey = `${dept.deptName}::${sec.sectionName}`;
+                    const secOpen = !!expanded[secKey];
+                    // section active when query param matches or contains active dash
+                    const secIsActive = sectionQuery === sec.sectionName || sec.dashboards.some(d => d.id === activeDashId);
+
+                    return (
+                      <div key={secKey}>
+                        <div className="flex items-center justify-between">
+                          <button
+                            onClick={() => toggleSection(dept.deptName, sec.sectionName)}
+                            className="p-0 mr-2 rounded-md hover:bg-slate-50"
+                            aria-label={`Toggle ${sec.sectionName}`}
+                          >
+                            {secOpen ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
+                          </button>
+
+                          {/* Section label is clickable Link and also triggers focusing behavior */}
+                          <Link
+                            to={`/departments/${encodeURIComponent(dept.deptName)}?section=${encodeURIComponent(sec.sectionName)}`}
+                            onClick={() => onSectionClick(dept.deptName, sec.sectionName)}
+                            className={`flex-1 flex items-center justify-between px-2 py-1 rounded-md hover:bg-slate-50 ${secIsActive ? "bg-xceed-50" : ""}`}
+                          >
+                            <div className="flex items-center gap-2">
+                              <Squares2X2Icon className="w-3.5 h-3.5 text-slate-500" />
+                              <div>
+                                <div className="text-[13px] text-slate-700 font-medium">{sec.sectionName}</div>
+                                <div className="text-[11px] text-slate-400">{sec.dashCount} dashboards</div>
+                              </div>
+                            </div>
+                            <Badge>{sec.dashCount}</Badge>
+                          </Link>
+                        </div>
+
+                        {/* Dashboards list — visible when section expanded */}
+                        {secOpen && (
+                          <div className="mt-1 ml-5 space-y-0.5">
+                            {sec.dashboards.map((d) => {
+                              const isActive = activeDashId === d.id || location.pathname === d.route;
+                              return (
+                                <Link
+                                  key={d.id}
+                                  to={d.route}
+                                  className={`block px-2 py-1 rounded-md truncate text-[12px] ${isActive ? "bg-xceed-500/10 border-l-2 border-xceed-500 text-xceed-700 font-semibold" : "text-slate-700 hover:bg-slate-50"}`}
+                                >
+                                  {d.name}
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </nav>
 
       <div className="mt-4 px-2">
-        <div className="text-xs text-slate-400">Quick</div>
+        <div className="text-xs text-slate-400">Quick Links</div>
         <div className="mt-2 flex gap-2">
-          <Link to="/data-manager" className="flex-1 text-center px-2 py-2 rounded-md border text-xs">Data Manager</Link>
-          <Link to="/docs" className="flex-1 text-center px-2 py-2 rounded-md border text-xs">Docs</Link>
+          <Link to="/data-manager" className="flex-1 text-center px-2 py-2 rounded-md border text-xs hover:bg-slate-50">Data Manager</Link>
+          <Link to="/docs" className="flex-1 text-center px-2 py-2 rounded-md border text-xs hover:bg-slate-50">Docs</Link>
         </div>
       </div>
     </aside>

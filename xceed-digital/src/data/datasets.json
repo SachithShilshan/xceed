@@ -1,64 +1,80 @@
 {
   "company": {
     "Finance & Accounting": {
-      "Accounts Payable": {
-        "AP Aging Dashboard": {
-          "dashId": "AP-Aging-Dashboard",
+      "Credit Risk Management": {
+        "Credit Risk Analysis": {
+          "dashId": "Credit_Risk_Analysis",
           "type": "PowerBI",
-          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
-          "description": "Accounts Payable",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOTc0MzM2YTUtNGZkYi00NWVhLWFiYTMtMjFmMDZhYTllYmNjIiwidCI6IjkyNTcwMDE0LWZmM2QtNDAxMC04MTNkLTQxM2YwZmY5OWQ5MiJ9",
+          "description": "Credit Risk Analysis",
           "dataset": {
             "files": [
               {
-                "id": "AP-Aging-Dashboard",
-                "name": "AP-Aging-Dashboard",
+                "id": "1-Credit_Risk_Analysis",
+                "name": "1-Credit_Risk_Analysis",
                 "type": "local",
                 "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0",
                 "description": "Local sample file"
               },
               {
-                "id": "AP-Aging-Dashboard-table1",
-                "name": "AP-Aging-Dashboard",
+                "id": "15-Credit_Risk_Analysis",
+                "name": "15-Credit_Risk_Analysis",
                 "type": "external",
-                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "description": "Main KPI metrics"
-              }
-            ]
-          }
-        }
-      },
-      "Accounts Receivable": {
-        "AR Aging Dashboard": {
-          "dashId": "AR-Aging -ashboard",
-          "type": "PowerBI",
-          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
-          "description": "AR Aging Dashboard",
-          "dataset": {
-            "files": [
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx2",
+                "description": "Local sample file"
+              },
               {
-                "id": "AR-Aging -ashboard-table2",
-                "name": "AR-Aging -ashboard",
+                "id": "29-Credit_Risk_Analysis",
+                "name": "29-Credit_Risk_Analysis",
                 "type": "external",
-                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "description": "Supplementary KPIs"
-              }
-            ]
-          }
-        }
-      },
-      "Budgeting & Reporting": {
-        "Budget vs Actual Dashboard": {
-          "dashId": "budget-vs-actual",
-          "type": "PowerBI",
-          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
-          "description": "Budget vs actual across business units",
-          "dataset": {
-            "files": [
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx4",
+                "description": "Local sample file"
+              },
               {
-                "id": "budget-source-2025",
-                "name": "budget_vs_actual_source.xlsx",
+                "id": "43-Credit_Risk_Analysis",
+                "name": "43-Credit_Risk_Analysis",
                 "type": "local",
-                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx6",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      },
+      "Financial Reporting": {
+        "Finance Dashboard": {
+          "dashId": "Finance_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOGJmMGNiOTctMzViZC00YTMxLTgxZmQtNmMwNDk1MDM4YTE0IiwidCI6ImE3NjhlZmQ4LTAxYzEtNDVmMC1hMzc2LWY1YjJiNjBlMzM2MiJ9&pageName=b5d12af160384203048c",
+          "description": "Finance Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "2-Finance_Dashboard",
+                "name": "2-Finance_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "16-Finance_Dashboard",
+                "name": "16-Finance_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "30-Finance_Dashboard",
+                "name": "30-Finance_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "44-Finance_Dashboard",
+                "name": "44-Finance_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
                 "description": "Local sample file"
               }
             ]
@@ -71,40 +87,483 @@
         "Company KPI Dashboard": {
           "dashId": "company-kpi",
           "type": "PowerBI",
-          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
+          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-...",
           "description": "Company-level KPIs",
           "dataset": {
             "files": [
               {
-                "id": "company-kpi-table1",
-                "name": "Company KPI Table 1 (OneDrive)",
+                "id": "3-company-kpi",
+                "name": "3-company-kpi",
                 "type": "external",
                 "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "description": "Main KPI metrics"
+                "description": "Local sample file"
               },
               {
-                "id": "company-kpi-table2",
-                "name": "Company KPI Table 2 (OneDrive)",
+                "id": "17-company-kpi",
+                "name": "17-company-kpi",
                 "type": "external",
                 "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "description": "Supplementary KPIs"
+                "description": "Local sample file"
+              },
+              {
+                "id": "31-company-kpi",
+                "name": "31-company-kpi",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "45-company-kpi",
+                "name": "45-company-kpi",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Customer Service / Customer Experience": {
+      "Protection / Regulatory Reporting": {
+        "Financial Complaints Monitoring Dashboard": {
+          "dashId": "Financial_Complaints_Monitoring_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYzgwMmRmZTEtZWJiZi00NGIwLWE3YTUtNjJiMDFjZTg2NTU2IiwidCI6ImZmYzg3OTVlLTAxODUtNDg5Yi05ZGE2LTQ5MDI0MTJmMDNhMCIsImMiOjl9&pageName=70faebe9d3ce003a7e21",
+          "description": "Financial_Complaints_Monitoring_Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "4-Financial_Complaints_Monitoring_Dashboard",
+                "name": "4-Financial_Complaints_Monitoring_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx0",
+                "description": "Local sample file"
+              },
+              {
+                "id": "18-Financial_Complaints_Monitoring_Dashboard",
+                "name": "18-Financial_Complaints_Monitoring_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx2",
+                "description": "Local sample file"
+              },
+              {
+                "id": "32-Financial_Complaints_Monitoring_Dashboard",
+                "name": "32-Financial_Complaints_Monitoring_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx4",
+                "description": "Local sample file"
+              },
+              {
+                "id": "46-Financial_Complaints_Monitoring_Dashboard",
+                "name": "46-Financial_Complaints_Monitoring_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx6",
+                "description": "Local sample file"
               }
             ]
           }
         }
       },
-      "Risk & Governance": {
-        "Risk & Compliance Dashboard": {
-          "dashId": "Risk-Compliance-Dashboard",
+      "Complaints Management": {
+        "Consumer Financial Complaints Analytics": {
+          "dashId": "Consumer_Financial_Complaints_Analytics",
           "type": "PowerBI",
-          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=4ce8262e-8c41-42bc-93ee-d80be922ad50&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db05&actionBarEnabled=true",
-          "description": "Risk & Compliance Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOGM2OGFlN2YtZDY2MS00MDA3LTg3NjEtM2VmMjM5NWE4YzVlIiwidCI6IjkyNTcwMDE0LWZmM2QtNDAxMC04MTNkLTQxM2YwZmY5OWQ5MiJ9",
+          "description": "Consumer Financial Complaints Analytics",
           "dataset": {
             "files": [
               {
-                "id": "Risk-Compliance-Dashboard",
-                "name": "Risk-Compliance-Dashboard",
+                "id": "5-Consumer_Financial_Complaints_Analytics",
+                "name": "5-Consumer_Financial_Complaints_Analytics",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "19-Consumer_Financial_Complaints_Analytics",
+                "name": "19-Consumer_Financial_Complaints_Analytics",
                 "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "33-Consumer_Financial_Complaints_Analytics",
+                "name": "33-Consumer_Financial_Complaints_Analytics",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "47-Consumer_Financial_Complaints_Analytics",
+                "name": "47-Consumer_Financial_Complaints_Analytics",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "IT / Technology": {
+      "IT Support / Help Desk": {
+        "IT Help Desk Dashboard": {
+          "dashId": "IT_Help_Desk_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiY2RkODMyYWYtYzJkZC00YjQ4LThlNWItMzA4MWVjYzI5YmJiIiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "IT Help Desk Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "6-IT_Help_Desk_Dashboard",
+                "name": "6-IT_Help_Desk_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "20-IT_Help_Desk_Dashboard",
+                "name": "20-IT_Help_Desk_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "34-IT_Help_Desk_Dashboard",
+                "name": "34-IT_Help_Desk_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "48-IT_Help_Desk_Dashboard",
+                "name": "48-IT_Help_Desk_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Risk & Compliance": {
+      "ESG / Sustainability Risk": {
+        "ESG Risk Landscape Analysis": {
+          "dashId": "ESG_Risk_Landscape_Analysis",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZTZlOWQ0OTktZWRjYi00Nzc4LTllZjYtOTdiOWU3NzQxYmYyIiwidCI6IjkyNTcwMDE0LWZmM2QtNDAxMC04MTNkLTQxM2YwZmY5OWQ5MiJ9",
+          "description": "ESG Risk Landscape Analysis",
+          "dataset": {
+            "files": [
+              {
+                "id": "7-ESG_Risk_Landscape_Analysis",
+                "name": "7-ESG_Risk_Landscape_Analysis",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "21-ESG_Risk_Landscape_Analysis",
+                "name": "21-ESG_Risk_Landscape_Analysis",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "35-ESG_Risk_Landscape_Analysis",
+                "name": "35-ESG_Risk_Landscape_Analysis",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "49-ESG_Risk_Landscape_Analysis",
+                "name": "49-ESG_Risk_Landscape_Analysis",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Human Resources (HR)": {
+      "Workforce Analytics": {
+        "HR Analytics Dashboard": {
+          "dashId": "HR_Analytics_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZWZlODMwNGItZWE1Yi00YThkLWI2MTAtN2Q2ZThkZGU2YTQ4IiwidCI6ImE3NjhlZmQ4LTAxYzEtNDVmMC1hMzc2LWY1YjJiNjBlMzM2MiJ9&pageName=4b6017c621d67ed4bce9",
+          "description": "HR Analytics Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "8-HR_Analytics_Dashboard",
+                "name": "8-HR_Analytics_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx1",
+                "description": "Local sample file"
+              },
+              {
+                "id": "22-HR_Analytics_Dashboard",
+                "name": "22-HR_Analytics_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx3",
+                "description": "Local sample file"
+              },
+              {
+                "id": "36-HR_Analytics_Dashboard",
+                "name": "36-HR_Analytics_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx5",
+                "description": "Local sample file"
+              },
+              {
+                "id": "50-HR_Analytics_Dashboard",
+                "name": "50-HR_Analytics_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx7",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Operations": {
+      "Supply Chain & Logistics": {
+        "Out-of-Stock Report Dashboard": {
+          "dashId": "Out-of-Stock_Report_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZTcxMTBhYTktNTAwYy00OGU3LWI0Y2MtMDExZTJkZDBiMzQzIiwidCI6ImE5NDUyNTg2LTJmNGMtNGNiMS04ZDJlLTI2ODkyODllZTcyNiIsImMiOjl9",
+          "description": "Out-of-Stock Report Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "9-Out-of-Stock_Report_Dashboard",
+                "name": "9-Out-of-Stock_Report_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "23-Out-of-Stock_Report_Dashboard",
+                "name": "23-Out-of-Stock_Report_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "37-Out-of-Stock_Report_Dashboard",
+                "name": "37-Out-of-Stock_Report_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "51-Out-of-Stock_Report_Dashboard",
+                "name": "51-Out-of-Stock_Report_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        },
+        "Supply Chain Performance Dashboard": {
+          "dashId": "Supply_Chain_Performance_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiN2ExM2VjZjItNWY4Mi00NTZkLWIzZmMtNGM3MDgxZjg5ZjUzIiwidCI6ImE3NjhlZmQ4LTAxYzEtNDVmMC1hMzc2LWY1YjJiNjBlMzM2MiJ9&pageName=1673a0bd1995bd071d01",
+          "description": "Supply Chain Performance Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "10-Supply_Chain_Performance_Dashboard",
+                "name": "10-Supply_Chain_Performance_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "24-Supply_Chain_Performance_Dashboard",
+                "name": "24-Supply_Chain_Performance_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "38-Supply_Chain_Performance_Dashboard",
+                "name": "38-Supply_Chain_Performance_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "52-Supply_Chain_Performance_Dashboard",
+                "name": "52-Supply_Chain_Performance_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        },
+        "Supply chain Dashboard": {
+          "dashId": "Supply_chain_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOTgxOGNlYmYtMGVhNy00NWNhLTg0YWEtMzhiZjhlZTM1YWNmIiwidCI6ImE3NjhlZmQ4LTAxYzEtNDVmMC1hMzc2LWY1YjJiNjBlMzM2MiJ9",
+          "description": "Supply chain Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "12-Supply_chain_Dashboard",
+                "name": "12-Supply_chain_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "26-Supply_chain_Dashboard",
+                "name": "26-Supply_chain_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "40-Supply_chain_Dashboard",
+                "name": "40-Supply_chain_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "54-Supply_chain_Dashboard",
+                "name": "54-Supply_chain_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      },
+      "Project Management / PMO": {
+        "Project Management Dashboard": {
+          "dashId": "Project_Management_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMWVhZjA4ZjctOWY1My00ODI2LTk0NzEtZDYzMGMyZmRiOTY3IiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "Project Management Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "11- Project_Management_Dashboard",
+                "name": "11- Project_Management_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx1",
+                "description": "Local sample file"
+              },
+              {
+                "id": "25- Project_Management_Dashboard",
+                "name": "25- Project_Management_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx3",
+                "description": "Local sample file"
+              },
+              {
+                "id": "39- Project_Management_Dashboard",
+                "name": "39- Project_Management_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx5",
+                "description": "Local sample file"
+              },
+              {
+                "id": "53- Project_Management_Dashboard",
+                "name": "53- Project_Management_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/2c9d502198273e67/IQSzi1f4O8g1T7qv3t__mmU8AdFXax9HDcVFpTzlONu0Kx7",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "Sales": {
+      "Retail Analytics": {
+        "Retail Sales Dashboard": {
+          "dashId": "Retail_Sales_Dashboard",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNjkxMzcxMjgtNzJmOC00OGRiLThhODAtNDZkODMyMWMyN2VlIiwidCI6IjA0ZWM2MTA5LTRjNzktNGM3My1hZTcxLWE0NzRjMDlhMWY1YSJ9",
+          "description": "Retail Sales Dashboard",
+          "dataset": {
+            "files": [
+              {
+                "id": "13-Retail_Sales_Dashboard",
+                "name": "13-Retail_Sales_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "27-Retail_Sales_Dashboard",
+                "name": "27-Retail_Sales_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "41-Retail_Sales_Dashboard",
+                "name": "41-Retail_Sales_Dashboard",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "55-Retail_Sales_Dashboard",
+                "name": "55-Retail_Sales_Dashboard",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              }
+            ]
+          }
+        }
+      },
+      "Sales Performance": {
+        "Performance Dashboard - Sales Agent": {
+          "dashId": "Performance_Dashboard-Sales_Agent",
+          "type": "PowerBI",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMjYzYThhYjAtZDcxNi00MzMzLThmMzItODc3YzAzNDE0MjYwIiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "Performance Dashboard - Sales Agent",
+          "dataset": {
+            "files": [
+              {
+                "id": "14-Performance_Dashboard-Sales_Agent",
+                "name": "14-Performance_Dashboard-Sales_Agent",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "28-Performance_Dashboard-Sales_Agent",
+                "name": "28-Performance_Dashboard-Sales_Agent",
+                "type": "local",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "42-Performance_Dashboard-Sales_Agent",
+                "name": "42-Performance_Dashboard-Sales_Agent",
+                "type": "external",
+                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
+                "description": "Local sample file"
+              },
+              {
+                "id": "56-Performance_Dashboard-Sales_Agent",
+                "name": "56-Performance_Dashboard-Sales_Agent",
+                "type": "external",
                 "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
                 "description": "Local sample file"
               }
