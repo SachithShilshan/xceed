@@ -36,7 +36,6 @@ export default function Departments() {
 
                     <div className="flex flex-col gap-2">
                       <Link to={`/departments/${encodeURIComponent(k)}`} className="px-3 py-2 rounded-md border text-sm">Open</Link>
-                      <Link to={`/data-manager?dept=${encodeURIComponent(k)}`} className="px-3 py-2 rounded-md border text-sm">Datasets</Link>
                     </div>
                   </div>
                 </div>

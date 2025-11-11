@@ -12,13 +12,13 @@ export default function Home() {
       <section className="bg-white card p-8 hero-accent">
         <div className="grid md:grid-cols-2 gap-6 items-center">
           <div>
-            <h1 className="text-3xl font-extrabold text-slate-900">Xceed Digital</h1>
+            <h1 className="text-3xl font-extrabold text-slate-900">Xceed Analytics</h1>
             <p className="mt-3 text-slate-600 max-w-xl">
               Empowering organisations with data, automation and AI. Explore departmental dashboards, generate reports, and trigger automations from a single portal.
             </p>
             <div className="mt-6 flex gap-3">
               <Link to="/departments" className="inline-flex items-center px-5 py-3 rounded-md bg-xceed-500 text-white font-semibold shadow">Open Portal</Link>
-              <a href="#contact" className="inline-flex items-center px-4 py-3 rounded-md border">Request a dashboard</a>
+              <a href="mailto:hello@xceed.example" className="inline-flex items-center px-4 py-3 rounded-md border">Request a dashboard</a>
             </div>
           </div>
 
