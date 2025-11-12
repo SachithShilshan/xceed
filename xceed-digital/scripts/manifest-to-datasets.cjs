@@ -1,9 +1,5 @@
-// scripts/manifest-to-datasets.js
-// Usage:
-//   node scripts/manifest-to-datasets.js path/to/manifest.xlsx
-//
-// Requires: npm install xlsx fs-extra
-
+// scripts/manifest-to-datasets.cjs
+// (This is the same script you used, extended to support RelativePath.)
 const fs = require("fs");
 const fse = require("fs-extra");
 const path = require("path");
@@ -11,7 +7,7 @@ const XLSX = require("xlsx");
 
 const ARGV = process.argv.slice(2);
 if (ARGV.length < 1) {
-  console.error("Usage: node scripts/manifest-to-datasets.js manifest.xlsx");
+  console.error("Usage: node scripts/manifest-to-datasets.cjs manifest.xlsx");
   process.exit(1);
 }
 const manifestPath = ARGV[0];
@@ -37,17 +33,7 @@ if (!sheetFiles) {
 const dbRows = XLSX.utils.sheet_to_json(sheetDatabases, { defval: "" });
 const fileRows = XLSX.utils.sheet_to_json(sheetFiles, { defval: "" });
 
-/**
- Expected columns in dbRows:
-  Department, Section, DB_ID, DB_Name, DB_Type, EmbedURL, Description
- Expected columns in fileRows:
-  DB_ID, File_ID, File_Name, File_Type, URL, Description
-*/
-
-// Build a nested manifest: company -> Department -> Section -> DB_Name -> { dashId, dataset: { files: [...] } }
-
 const out = { company: {} };
-
 const warnings = [];
 
 function ensureDepartment(deptName) {
@@ -55,7 +41,7 @@ function ensureDepartment(deptName) {
   return out.company[deptName];
 }
 
-// process databases
+// process databases (same as before)
 dbRows.forEach((r, i) => {
   const rowIndex = i + 2;
   const Department = (r.Department || "").toString().trim();
@@ -82,7 +68,7 @@ dbRows.forEach((r, i) => {
   };
 });
 
-// index DBs by DB_ID for quick lookup
+// index DBs by DB_ID
 const dbIdIndex = {};
 Object.entries(out.company).forEach(([deptName, sections]) => {
   Object.entries(sections).forEach(([sectionName, dashboards]) => {
@@ -94,14 +80,15 @@ Object.entries(out.company).forEach(([deptName, sections]) => {
   });
 });
 
-// process files
+// process files (extended)
 fileRows.forEach((r, i) => {
   const rowIndex = i + 2;
-  const DB_ID = (r.DB_ID || r.dbId || r.db_id || "").toString().trim();
+  const DB_ID = (r.DB_ID || r.DBId || r.db_id || "").toString().trim();
   const File_ID = (r.File_ID || r.FileId || r.file_id || `file-${Date.now()}-${i}`).toString().trim();
   const File_Name = (r.File_Name || r.FileName || r.Name || "").toString().trim();
-  const File_Type = (r.File_Type || r.Type || "").toString().trim().toLowerCase();
+  const File_Type = ((r.File_Type || r.Type || "").toString().trim() || "").toLowerCase();
   const URL = (r.URL || r.Url || r.Link || "").toString().trim();
+  const RelativePath = (r.RelativePath || r.Path || r.FolderPath || "").toString().trim();
   const Description = (r.Description || "").toString().trim();
 
   if (!DB_ID || !File_Name || !URL) {
@@ -120,39 +107,34 @@ fileRows.forEach((r, i) => {
     name: File_Name,
     type: (File_Type === "local" || File_Type === "external") ? File_Type : (URL.startsWith("/") ? "local" : "external"),
     url: URL,
+    relativePath: RelativePath || "",   // NEW: store the relative path
     description: Description || ""
   };
 
+  // attach
   dbEntry.dashObj.dataset.files.push(fileObj);
+
+  // if local, create folder structure under public/data/<dept>/<section>/<dbId>/<RelativePath>
+  if (fileObj.type === "local") {
+    const cleanDept = dbEntry.deptName.replace(/[^\w-]/g, "_").toLowerCase();
+    const cleanSection = dbEntry.sectionName.replace(/[^\w-]/g, "_").toLowerCase();
+    const cleanDb = (dbEntry.dashObj.dashId || dbEntry.dashName).toString().replace(/[^\w-]/g, "_").toLowerCase();
+    // use relativePath segments if provided
+    const relPath = (fileObj.relativePath || "").split("/").filter(Boolean);
+    const dbFolder = path.join("public", "data", cleanDept, cleanSection, cleanDb, ...relPath);
+    fse.ensureDirSync(dbFolder);
+    // create README+placeholder for file (only if filename is given)
+    const placeholder = path.join(dbFolder, `.README_${fileObj.id}.md`);
+    if (!fs.existsSync(placeholder)) {
+      const fileTarget = path.posix.join("/", dbFolder.replace(/\\/g, "/"), path.basename(fileObj.url));
+      fs.writeFileSync(placeholder, `Placeholder for ${fileObj.name}\n\nDrop the real file at: ${fileTarget}\n`, "utf8");
+    }
+  }
 });
 
-// create target path
+// write datasets.json
 const outPath = path.join(process.cwd(), "src", "data", "datasets.json");
 fse.ensureDirSync(path.dirname(outPath));
-
-// create public data directories for local files
-Object.entries(out.company).forEach(([deptName, sections]) => {
-  Object.entries(sections).forEach(([sectionName, dashboards]) => {
-    Object.entries(dashboards).forEach(([dashName, dashObj]) => {
-      const files = (dashObj.dataset && dashObj.dataset.files) || [];
-      files.forEach(f => {
-        if (f.type === "local") {
-          const cleanDept = deptName.replace(/[^\w-]/g, "_").toLowerCase();
-          const cleanSection = sectionName.replace(/[^\w-]/g, "_").toLowerCase();
-          const dbFolder = path.join("public", "data", cleanDept, cleanSection, dashObj.dashId || dashName.replace(/\s+/g, "_"));
-          fse.ensureDirSync(dbFolder);
-          // create placeholder README explaining where to add file
-          const placeholder = path.join(dbFolder, `.README_${f.id}.md`);
-          if (!fs.existsSync(placeholder)) {
-            fs.writeFileSync(placeholder, `Placeholder for ${f.name}\n\nDrop the real file at: ${path.posix.join("/", dbFolder, path.basename(f.url))}\n`, "utf8");
-          }
-        }
-      });
-    });
-  });
-});
-
-// write datasets.json with pretty print
 fs.writeFileSync(outPath, JSON.stringify(out, null, 2), "utf8");
 
 console.log("Created src/data/datasets.json");

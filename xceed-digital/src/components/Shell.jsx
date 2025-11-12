@@ -18,7 +18,7 @@ export default function Shell({ children }) {
   const sidebarRoutePrefixes = [
     "/departments",
     "/dash",
-    
+    // "/data-manager",
     "/gallery",
     "/docs"
   ];

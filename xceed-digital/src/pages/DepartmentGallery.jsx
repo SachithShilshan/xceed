@@ -205,14 +205,14 @@ export default function DepartmentGallery() {
               <div className="flex items-center gap-3">
                 {/* Open datasets in new tab */}
                 <button
-  onClick={() => {
-    const url = `${window.location.origin}/xceed/#/data-manager?dept=${encodeURIComponent(preview.dept)}&dash=${encodeURIComponent(preview.id)}`;
-    window.open(url, "_blank", "noopener,noreferrer,width=1600,height=900");
-  }}
-  className="px-3 py-2 rounded-md border text-sm hover:bg-slate-50"
->
-  Open datasets
-</button>
+                  onClick={() => {
+                    const url = `${window.location.origin}/xceed/#/data-manager?dept=${encodeURIComponent(preview.dept)}&dash=${encodeURIComponent(preview.id)}`;
+                    window.open(url, "_blank", "noopener,noreferrer,width=1600,height=900");
+                  }}
+                  className="px-3 py-2 rounded-md border text-sm hover:bg-slate-50"
+                >
+                  Open datasets
+                </button>
 
 
                 {/* Close button */}
