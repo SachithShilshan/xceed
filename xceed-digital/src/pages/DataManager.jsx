@@ -6,22 +6,27 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   ArrowUpOnSquareIcon,
+  DocumentDuplicateIcon,
+  ArrowTopRightOnSquareIcon,
+  TrashIcon,
+  FolderIcon,
+  DocumentIcon,
 } from "@heroicons/react/24/outline";
 
 /**
- * DataManager (compact tree-only view)
+ * DataManager — 3-column Explorer UI (fixed focused-dashboard + polish)
+ * Left: Global Explorer (dept -> section -> dashboard)
+ * Middle: Focused Dashboard root + folder tree (acts like the explorer detail)
+ * Right: Files list for currently selected node (dashboard/path/section/dept)
  *
- * - No Sidebar, no right details panel (per your request)
- * - Search (prunes tree), Sort (A→Z / Z→A), Expand All / Collapse All (visible tree)
- * - Export manifest
- * - File rows: Open (anchor), Copy, Remove
- *
- * Notes:
- * - client-only changes (use Export manifest to persist)
- * - for 'local' files we compute a best-effort public URL if `publicUrl` missing
+ * Improvements:
+ * - Fixed focused dashboard folder-tree extraction
+ * - Better visuals (icons, hover, subtle shadows, transitions)
+ * - Folder expand/collapse recursive and selection works
  */
 
-// helpers
+/* ---------- helpers ---------- */
+
 function cleanNameForPath(s = "") {
   return s.toString().replace(/[^\w-]/g, "_").toLowerCase();
 }
@@ -30,18 +35,16 @@ function joinPosix(...parts) {
 }
 function buildPublicUrl({ deptName, sectionName, dashObj, file }) {
   if (file.publicUrl) return file.publicUrl;
-  // if file.url is absolute, prefer it
   if (file.url && (file.url.startsWith("http://") || file.url.startsWith("https://"))) return file.url;
   const cleanDept = cleanNameForPath(deptName);
   const cleanSection = cleanNameForPath(sectionName);
-  const cleanDb = cleanNameForPath((dashObj.dashId || dashObj.name || "db").toString());
+  const cleanDb = cleanNameForPath((dashObj?.dashId || dashObj?.name || "db").toString());
   const relParts = (file.relativePath || "").split("/").filter(Boolean);
   const fileName = (file.url || file.name || "").split("/").pop();
   const path = joinPosix("data", cleanDept, cleanSection, cleanDb, ...relParts, fileName);
   return `${window.location.origin}/${path}`;
 }
 
-// build tree from manifest
 function buildTreeFromManifest(manifest) {
   const tree = [];
   const company = manifest?.company || {};
@@ -78,30 +81,36 @@ function buildTreeFromManifest(manifest) {
   return tree;
 }
 
-// convert folderMap -> nested node
+// Convert folderMap -> nested folder nodes (for recursive rendering)
 function folderMapToTree(folderMap) {
   function buildNode(pathKey) {
     const entry = folderMap[pathKey] || { files: [], folders: new Set() };
+    const children = Array.from(entry.folders || []).sort().map(k => buildNode(k));
     return {
       key: pathKey,
-      name: pathKey === "" ? "(root)" : pathKey.split("/").slice(-1)[0],
+      name: pathKey === "" ? "(root)" : pathKey,
+      shortName: pathKey === "" ? "(root)" : pathKey.split("/").slice(-1)[0],
       files: (entry.files || []).slice().sort((a,b) => (a.name || "").localeCompare(b.name || "")),
-      children: Array.from(entry.folders || []).sort().map(k => buildNode(k))
+      children
     };
   }
   return buildNode("");
 }
 
+/* ---------- component ---------- */
+
 export default function DataManager() {
   const [manifest, setManifest] = useState(() => JSON.parse(JSON.stringify(datasetsManifest)));
   const [query, setQuery] = useState("");
-  const [sortBy, setSortBy] = useState("name-asc"); // name-asc | name-desc
+  const [sortBy, setSortBy] = useState("name-asc");
   const [expanded, setExpanded] = useState({});
   const [notice, setNotice] = useState("");
+  const [activeNode, setActiveNode] = useState(""); // selected node key (dept|sec|dash|path)
+  const [focusedDashboard, setFocusedDashboard] = useState(null); // { dept, section, dashName, dashObj, folderTree }
 
   const rawTree = useMemo(() => buildTreeFromManifest(manifest), [manifest]);
 
-  // visible tree (pruned by query)
+  // visible tree (filtered)
   const visibleTree = useMemo(() => {
     const q = (query || "").trim().toLowerCase();
     if (!q) return rawTree;
@@ -127,7 +136,6 @@ export default function DataManager() {
               filteredFolderMap[key] = { files: files.slice(), folders: new Set([...fm[key].folders]) };
             }
           });
-          // include intermediate parents
           Object.keys(filteredFolderMap).forEach(k => {
             const parts = k ? k.split("/") : [];
             for (let i=0;i<parts.length;i++){
@@ -159,18 +167,22 @@ export default function DataManager() {
     return out;
   }, [rawTree, query]);
 
-  // collect visible keys
+  // key helpers
+  function deptKey(d) { return `dept:${d}`; }
+  function secKey(d, s) { return `dept:${d}|sec:${s}`; }
+  function dashKey(d, s, dd) { return `dept:${d}|sec:${s}|dash:${dd}`; }
+  function pathNodeKey(dk, path) { return `${dk}|path:${path}`; }
+
+  // collect visible keys for expandAll
   function collectVisibleKeys(treeSrc) {
     const keys = [];
     treeSrc.forEach(dept => {
-      const deptKey = `dept:${dept.deptName}`; keys.push(deptKey);
+      const dKey = deptKey(dept.deptName); keys.push(dKey);
       dept.sections.forEach(sec => {
-        const secKey = `${deptKey}|sec:${sec.sectionName}`; keys.push(secKey);
+        const sKey = secKey(dept.deptName, sec.sectionName); keys.push(sKey);
         sec.dashboards.forEach(dash => {
-          const dashKey = `${secKey}|dash:${dash.dashName}`; keys.push(dashKey);
-          Object.keys(dash.folderMap || {}).forEach(pathKey => {
-            keys.push(`${dashKey}|path:${pathKey}`);
-          });
+          const dk = dashKey(dept.deptName, sec.sectionName, dash.dashName); keys.push(dk);
+          Object.keys(dash.folderMap || {}).forEach(pathKey => keys.push(`${dk}|path:${pathKey}`));
         });
       });
     });
@@ -207,7 +219,6 @@ export default function DataManager() {
     setNotice("Manifest exported");
   }
 
-  // remove file (client-only)
   function removeFileClient(deptName, sectionName, dashName, fileId) {
     const dashObj = manifest.company?.[deptName]?.[sectionName]?.[dashName];
     if (!dashObj) return;
@@ -216,7 +227,6 @@ export default function DataManager() {
     setNotice("Removed (client-only)");
   }
 
-  // copy a link
   function copyLink(file, deptName, sectionName, dashName) {
     const dashObj = manifest.company?.[deptName]?.[sectionName]?.[dashName] || {};
     const url = file.publicUrl || buildPublicUrl({ deptName, sectionName, dashObj, file });
@@ -224,7 +234,6 @@ export default function DataManager() {
     setNotice("Link copied");
   }
 
-  // sort helper
   function sortFiles(arr) {
     const a = arr.slice();
     if (sortBy === "name-asc") a.sort((x,y)=> (x.name||"").localeCompare(y.name||""));
@@ -232,81 +241,151 @@ export default function DataManager() {
     return a;
   }
 
-  // recursive folder node render
-  function RenderFolderNode({ node, deptName, sectionName, dashName, dashKey }) {
-    const nodeKey = `${dashKey}|path:${node.key}`;
-    const isExpanded = !!expanded[nodeKey];
+  // get files for node
+  function getFilesForNodeKey(nodeKey) {
+    if (!nodeKey) return [];
+    const parts = nodeKey.split("|");
+    const dept = parts[0]?.replace(/^dept:/, "");
+    const sec = parts[1]?.replace(/^sec:/, "");
+    const dash = parts[2]?.replace(/^dash:/, "");
+    const pathPart = parts.find(p => p.startsWith("path:"));
+    const path = pathPart ? pathPart.replace(/^path:/, "") : null;
 
-    const visibleFiles = (node.files || []).filter(f => {
-      if (!query) return true;
-      const q = query.toLowerCase();
-      const name = (f.name || f.url || "").toLowerCase();
-      const path = (f.relativePath || "").toLowerCase();
-      const meta = `${deptName} ${sectionName} ${dashName}`.toLowerCase();
-      return name.includes(q) || path.includes(q) || meta.includes(q);
+    if (!dept) return [];
+    // dept only
+    if (dept && !sec) {
+      const depObj = manifest.company?.[dept] || {};
+      let coll = [];
+      Object.keys(depObj).forEach(s => {
+        Object.keys(depObj[s] || {}).forEach(d => {
+          const files = (depObj[s][d]?.dataset?.files || []).map(f => ({ ...f, _dept: dept, _sec: s, _dash: d }));
+          coll = coll.concat(files);
+        });
+      });
+      return sortFiles(coll);
+    }
+    // dept + sec (no dash)
+    if (dept && sec && !dash) {
+      const secObj = manifest.company?.[dept]?.[sec] || {};
+      let coll = [];
+      Object.keys(secObj).forEach(d => {
+        const files = (secObj[d]?.dataset?.files || []).map(f => ({ ...f, _dept: dept, _sec: sec, _dash: d }));
+        coll = coll.concat(files);
+      });
+      return sortFiles(coll);
+    }
+
+    // dept+sec+dash
+    const dashObj = manifest.company?.[dept]?.[sec]?.[dash] || {};
+    let files = (dashObj.dataset?.files || []).map(f => ({ ...f, _dept: dept, _sec: sec, _dash: dash }));
+    if (path !== null && path !== "") {
+      files = files.filter(f => ((f.relativePath || "") === path || (f.relativePath || "").startsWith(path + "/")));
+    }
+    return sortFiles(files);
+  }
+
+  // breadcrumbs
+  function breadcrumbsFromNodeKey(nodeKey) {
+    if (!nodeKey) return [];
+    const parts = nodeKey.split("|");
+    const crumbs = [];
+    let acc = "";
+    for (let i=0;i<parts.length;i++) {
+      const p = parts[i];
+      if (i === 0) {
+        acc = p;
+        crumbs.push({ key: acc, label: p.replace(/^dept:/, "") });
+      } else {
+        acc = acc + "|" + p;
+        crumbs.push({ key: acc, label: p.replace(/^sec:|^dash:|^path:/, "") });
+      }
+    }
+    return crumbs;
+  }
+
+  // initialize: expand depts + select first dash
+  useEffect(() => {
+    const obj = {};
+    rawTree.forEach(d => { obj[deptKey(d.deptName)] = true; });
+    setExpanded(obj);
+
+    if (!activeNode && rawTree.length > 0) {
+      const d = rawTree[0];
+      const s = d.sections && d.sections[0];
+      const dash = s && s.dashboards && s.dashboards[0];
+      if (d && s && dash) {
+        const k = dashKey(d.deptName, s.sectionName, dash.dashName);
+        setActiveNode(k);
+        // set focused dashboard properly (extract folderMap defensively)
+        const folderMap = dash.folderMap || dash.dashObj?.dataset?.folderMap || dash.dashObj?.folderMap || {};
+        setFocusedDashboard({
+          dept: d.deptName,
+          section: s.sectionName,
+          dashName: dash.dashName,
+          dashObj: dash.dashObj,
+          folderTree: folderMapToTree(folderMap)
+        });
+      } else if (d && s) {
+        setActiveNode(secKey(d.deptName, s.sectionName));
+      } else if (d) {
+        setActiveNode(deptKey(d.deptName));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* ---------- when clicking a dashboard on left: focus into middle pane ---------- */
+  function focusDashboardFromLeft(deptName, sectionName, dashName, dashObj, dashEntry) {
+    const k = dashKey(deptName, sectionName, dashName);
+    setActiveNode(k);
+    const folderMap = (dashEntry && dashEntry.folderMap) || dashObj?.dataset?.folderMap || dashObj?.folderMap || {};
+    setFocusedDashboard({
+      dept: deptName,
+      section: sectionName,
+      dashName,
+      dashObj,
+      folderTree: folderMapToTree(folderMap)
     });
+    // expand left nodes
+    setExpanded(prev => ({ ...prev, [deptKey(deptName)]: true, [secKey(deptName, sectionName)]: true, [k]: true }));
+  }
 
-    const filesSorted = sortFiles(visibleFiles);
+  /* ---------- recursive FolderNode for middle pane ---------- */
+  function FolderNode({ node, parentKey }) {
+    const thisKey = parentKey + "|path:" + (node.key || "");
+    const isExpanded = !!expanded[thisKey];
+    const isActive = activeNode === thisKey;
 
     return (
-      <div key={node.key} className="mb-2">
-        <div className="flex items-center justify-between">
+      <div className="tree-node" key={thisKey}>
+        <div
+          onClick={() => setActiveNode(thisKey)}
+          className={`tree-item ${isActive ? "active" : ""} hover:shadow-sm rounded-md transition`}
+          style={{ paddingLeft: `${28 + (node.key === "" ? 0 : (node.key.split("/").length * 16))}px` }}
+        >
           <button
-            onClick={() => setExpanded(prev => ({ ...prev, [nodeKey]: !prev[nodeKey] }))}
-            className="flex items-center gap-2 text-xs text-slate-700 px-2 py-1 rounded-md hover:bg-slate-50"
+            onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [thisKey]: !prev[thisKey] })); }}
+            className="toggle-btn p-1 rounded-md hover:bg-slate-100"
+            aria-label="toggle"
           >
-            {isExpanded ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
-            <div className="text-xs font-medium">{node.name === "(root)" ? "Root" : node.name}</div>
-            <div className="text-[11px] text-slate-400 ml-1">({node.files.length})</div>
+            { (node.children.length > 0)
+              ? (isExpanded ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />)
+              : <span style={{ display: "inline-block", width: 16 }} /> }
           </button>
+
+          <div className="min-w-0 flex items-center gap-3">
+            <FolderIcon className="w-4 h-4 text-slate-400" />
+            <div>
+              <div className={`text-sm font-medium truncate ${isActive ? "text-rose-700" : "text-slate-700"}`}>{node.name === "(root)" ? "(root)" : node.name}</div>
+              <div className="text-[11px] text-slate-400 truncate">{(node.files || []).length} files</div>
+            </div>
+          </div>
         </div>
 
-        {isExpanded && (
-          <div className="pl-4 mt-2 space-y-2">
-            {filesSorted.length === 0 && <div className="text-xs text-slate-400">No files</div>}
-
-            {filesSorted.map(f => {
-              const fileHref = f.publicUrl || buildPublicUrl({ deptName, sectionName, dashObj: manifest.company?.[deptName]?.[sectionName]?.[dashName] || {}, file: f });
-              return (
-                <div key={f.id} className="flex items-center justify-between p-2 rounded-md hover:bg-slate-50">
-                  <div className="min-w-0">
-                    <div className="text-xs font-medium truncate">{f.name}</div>
-                    <div className="text-[11px] text-slate-400 truncate">{f.relativePath || "(root)"}</div>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <a
-                      href={fileHref}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="text-xs px-2 py-1 rounded-md border"
-                      onClick={(e)=>e.stopPropagation()}
-                    >
-                      Open
-                    </a>
-
-                    <button
-                      title="Copy link"
-                      onClick={() => copyLink(f, deptName, sectionName, dashName)}
-                      className="px-2 py-1 rounded-md border text-[11px]"
-                    >
-                      Copy
-                    </button>
-
-                    <button
-                      title="Remove"
-                      onClick={() => removeFileClient(deptName, sectionName, dashName, f.id)}
-                      className="px-2 py-1 rounded-md border text-[11px]"
-                    >
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-
+        {isExpanded && node.children.length > 0 && (
+          <div className="pl-0 mt-1 space-y-1">
             {node.children.map(child => (
-              <RenderFolderNode key={child.key} node={child} deptName={deptName} sectionName={sectionName} dashName={dashName} dashKey={dashKey} />
+              <FolderNode key={child.key} node={child} parentKey={parentKey} />
             ))}
           </div>
         )}
@@ -314,17 +393,21 @@ export default function DataManager() {
     );
   }
 
-  // main render
+  /* ---------- Render ---------- */
+
+  const activeFiles = getFilesForNodeKey(activeNode);
+  const crumbs = breadcrumbsFromNodeKey(activeNode);
+
   return (
-    <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6">
-      <div className="flex items-center justify-between gap-4 mb-4">
+    <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8 py-6">
+      <div className="flex items-start justify-between gap-4 mb-4">
         <div>
-          <h1 className="text-lg font-semibold">Data Manager</h1>
-          <p className="text-xs text-slate-500 mt-1">Search datasets — tree view (compact)</p>
+          <h1 className="text-lg font-semibold">Data Manager — Explorer</h1>
+          <p className="text-xs text-slate-500 mt-1">Left: explorer • Middle: focused dashboard • Right: files</p>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center bg-white border rounded-md px-2 py-1">
+          <div className="flex items-center bg-white border rounded-md px-2 py-1 shadow-sm">
             <MagnifyingGlassIcon className="w-4 h-4 text-slate-400" />
             <input
               value={query}
@@ -339,85 +422,105 @@ export default function DataManager() {
             <option value="name-desc">Name Z → A</option>
           </select>
 
-          <button onClick={expandAllVisible} className="px-2 py-1 rounded-md border text-sm flex items-center gap-2">
-            <ArrowUpOnSquareIcon className="w-4 h-4" /> Expand all
+          <button onClick={expandAllVisible} className="px-2 py-1 rounded-md border text-sm flex items-center gap-2 bg-white shadow-sm">
+            <ArrowUpOnSquareIcon className="w-4 h-4" /> Expand
           </button>
 
-          <button onClick={collapseAll} className="px-2 py-1 rounded-md border text-sm">Collapse all</button>
+          <button onClick={collapseAll} className="px-2 py-1 rounded-md border text-sm bg-white shadow-sm">Collapse</button>
 
-          <button onClick={exportManifest} className="px-3 py-1 rounded-md bg-blue-600 text-white text-sm">Export manifest</button>
+          <button onClick={exportManifest} className="px-3 py-1 rounded-md bg-blue-600 text-white text-sm shadow">Export</button>
         </div>
       </div>
 
-      <div className="bg-white border rounded-lg p-3 shadow-sm">
-        <div className="text-sm font-semibold mb-3">Datasets tree</div>
+      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+        <div className="grid grid-cols-12">
+          {/* LEFT: Explorer */}
+          <aside className="col-span-12 md:col-span-4 lg:col-span-3 border-r bg-slate-50">
+            <div className="p-4 h-[640px] overflow-auto tree-wrap">
+              <div className="text-xs text-slate-500 mb-3">Explorer</div>
 
-        <div className="space-y-3">
-          {visibleTree.length === 0 && <div className="text-xs text-slate-500">No matches</div>}
+              {visibleTree.length === 0 && <div className="text-xs text-slate-500">No results</div>}
 
-          {visibleTree.map(dept => (
-            <div key={dept.deptName}>
-              <div className="flex items-center justify-between">
-                <button
-                  onClick={() => setExpanded(prev => ({ ...prev, [`dept:${dept.deptName}`]: !prev[`dept:${dept.deptName}`] }))}
-                  className="flex items-center gap-2 w-full text-left px-2 py-1 rounded-md hover:bg-slate-50"
-                >
-                  {expanded[`dept:${dept.deptName}`] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
-                  <div className="text-sm font-medium">{dept.deptName}</div>
-                  <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-700">{dept.sections.length} sections</span>
-                </button>
-              </div>
+              <div className="space-y-2">
+                {visibleTree.map(dept => {
+                  const dKey = deptKey(dept.deptName);
+                  return (
+                    <div key={dept.deptName}>
+                      {/* Department */}
+                      <div
+                        onClick={() => { setActiveNode(dKey); setExpanded(prev => ({ ...prev, [dKey]: true })); }}
+                        className={`tree-node root`}
+                      >
+                        <div className={`tree-item ${activeNode === dKey ? "active" : ""} depth-0`}>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [dKey]: !prev[dKey] })); }}
+                            className="toggle-btn p-1 rounded-md hover:bg-slate-100"
+                            aria-label="toggle"
+                          >
+                            {expanded[dKey] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
+                          </button>
 
-              {expanded[`dept:${dept.deptName}`] && (
-                <div className="pl-4 mt-2 space-y-2">
-                  {dept.sections.map(sec => (
-                    <div key={sec.sectionName}>
-                      <div className="flex items-center justify-between">
-                        <button
-                          onClick={() => setExpanded(prev => ({ ...prev, [`dept:${dept.deptName}|sec:${sec.sectionName}`]: !prev[`dept:${dept.deptName}|sec:${sec.sectionName}`] }))}
-                          className="flex items-center gap-2 w-full text-left px-2 py-1 rounded-md hover:bg-slate-50"
-                        >
-                          {expanded[`dept:${dept.deptName}|sec:${sec.sectionName}`] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
-                          <div className="text-xs font-semibold text-slate-700">{sec.sectionName}</div>
-                          <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-700">{sec.dashboards.length} dashboards</span>
-                        </button>
+                          <div className="min-w-0">
+                            <div className={`text-sm font-medium truncate ${activeNode === dKey ? "text-emerald-700" : "text-slate-700"}`}>{dept.deptName}</div>
+                            <div className="text-[11px] text-slate-400">{dept.sections.length} sections</div>
+                          </div>
+                        </div>
                       </div>
 
-                      {expanded[`dept:${dept.deptName}|sec:${sec.sectionName}`] && (
-                        <div className="pl-4 mt-1 space-y-1">
-                          {sec.dashboards.map(dash => {
-                            const dashKey = `dept:${dept.deptName}|sec:${sec.sectionName}|dash:${dash.dashName}`;
+                      {expanded[dKey] && (
+                        <div className="pl-0 mt-1 space-y-1">
+                          {dept.sections.map(sec => {
+                            const sKey = secKey(dept.deptName, sec.sectionName);
                             return (
-                              <div key={dash.dashName} className="mb-1">
-                                <div className="flex items-center justify-between">
-                                  <button
-                                    onClick={() => setExpanded(prev => ({ ...prev, [dashKey]: !prev[dashKey] }))}
-                                    className="flex items-center gap-2 w-full text-left px-2 py-1 rounded-md hover:bg-slate-50"
-                                  >
-                                    {expanded[dashKey] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
-                                    <div className="text-xs font-medium text-slate-700">{dash.dashName}</div>
-                                    <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-700">{(dash.dashObj.dataset?.files || []).length} files</span>
-                                  </button>
+                              <div key={sKey}>
+                                {/* Section */}
+                                <div
+                                  onClick={() => { setActiveNode(sKey); setExpanded(prev => ({ ...prev, [sKey]: true })); }}
+                                  className="tree-node"
+                                >
+                                  <div className={`tree-item ${activeNode === sKey ? "active" : ""} depth-1`}>
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [sKey]: !prev[sKey] })); }}
+                                      className="toggle-btn p-1 rounded-md hover:bg-slate-100"
+                                    >
+                                      {expanded[sKey] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
+                                    </button>
+
+                                    <div className="min-w-0">
+                                      <div className={`text-xs font-semibold truncate ${activeNode === sKey ? "text-emerald-700" : "text-slate-700"}`}>{sec.sectionName}</div>
+                                      <div className="text-[11px] text-slate-400">{sec.dashboards.length} dashboards</div>
+                                    </div>
+                                  </div>
                                 </div>
 
-                                {expanded[dashKey] && (
-                                  <div className="pl-4 mt-2">
-                                    {(() => {
-                                      const folderMap = dash.folderMap || {};
-                                      const rootNode = folderMapToTree(folderMap);
-                                      function annotate(node, key) {
-                                        node.key = key;
-                                        node.children.forEach(c => {
-                                          const childKey = key ? `${key}/${c.name}` : c.name;
-                                          annotate(c, childKey);
-                                        });
-                                      }
-                                      annotate(rootNode, "");
-                                      function renderNode(node) {
-                                        return <RenderFolderNode key={node.key} node={node} deptName={dept.deptName} sectionName={sec.sectionName} dashName={dash.dashName} dashKey={dashKey} />;
-                                      }
-                                      return renderNode(rootNode);
-                                    })()}
+                                {expanded[sKey] && (
+                                  <div className="pl-0 mt-1 space-y-1">
+                                    {sec.dashboards.map(d => {
+                                      const dk = dashKey(dept.deptName, sec.sectionName, d.dashName);
+                                      return (
+                                        <div key={dk}>
+                                          {/* Dashboard (click to focus in middle) */}
+                                          <div
+                                            onClick={() => focusDashboardFromLeft(dept.deptName, sec.sectionName, d.dashName, d.dashObj, d)}
+                                            className="tree-node"
+                                          >
+                                            <div className={`tree-item ${focusedDashboard?.dashName === d.dashName ? "root-dashboard" : ""} depth-2`}>
+                                              <button
+                                                onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [dk]: !prev[dk] })); }}
+                                                className="toggle-btn p-1 rounded-md hover:bg-slate-100"
+                                              >
+                                                {expanded[dk] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
+                                              </button>
+
+                                              <div className="min-w-0">
+                                                <div className={`text-xs font-medium truncate ${focusedDashboard?.dashName === d.dashName ? "text-rose-700" : "text-slate-700"}`}>{d.dashName}</div>
+                                                <div className="text-[11px] text-slate-400">{(d.dashObj.dataset?.files || []).length} files</div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
                                   </div>
                                 )}
                               </div>
@@ -426,11 +529,91 @@ export default function DataManager() {
                         </div>
                       )}
                     </div>
-                  ))}
+                  );
+                })}
+              </div>
+            </div>
+          </aside>
+
+          {/* MIDDLE: Focused Dashboard root + folder tree */}
+          <aside className="col-span-12 md:col-span-4 lg:col-span-4 border-r bg-white">
+            <div className="p-4 h-[640px] overflow-auto">
+              <div className="text-xs text-slate-500 mb-3">Focused Dashboard</div>
+
+              {!focusedDashboard && (
+                <div className="text-sm text-slate-500">Select a dashboard on the left to view its folder tree.</div>
+              )}
+
+              {focusedDashboard && (
+                <div className="space-y-3">
+                  <div className="p-3 rounded-md border bg-rose-50 shadow-sm">
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <div className="text-sm font-semibold text-rose-700 truncate">{focusedDashboard.dashName}</div>
+                        <div className="text-xs text-slate-400">{focusedDashboard.dept} • {focusedDashboard.section}</div>
+                      </div>
+                      <div className="text-xs text-slate-500">{(focusedDashboard.dashObj?.dataset?.files || []).length} files</div>
+                    </div>
+                  </div>
+
+                  {/* render folder tree */}
+                  <div className="mt-2">
+                    <FolderNode node={focusedDashboard.folderTree} parentKey={dashKey(focusedDashboard.dept, focusedDashboard.section, focusedDashboard.dashName)} />
+                  </div>
                 </div>
               )}
             </div>
-          ))}
+          </aside>
+
+          {/* RIGHT: Files list (for activeNode) */}
+          <main className="col-span-12 md:col-span-4 lg:col-span-5 p-4">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <div className="text-xs text-slate-400">Location</div>
+                <div className="mt-1 text-sm">
+                  {crumbs.length === 0 ? <span className="text-slate-500">No selection</span> : crumbs.map((c,i) => (
+                    <button key={c.key} onClick={() => setActiveNode(c.key)} className={`text-sm px-2 py-1 rounded-md ${i===crumbs.length-1 ? "bg-emerald-50 text-emerald-700" : "hover:bg-slate-100 text-slate-600"}`}>{c.label}</button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="text-xs text-slate-500">Items</div>
+                <div className="text-sm font-medium px-2 py-1 bg-slate-100 rounded">{activeFiles.length}</div>
+              </div>
+            </div>
+
+            <div className="bg-white border rounded-md p-3 space-y-2 shadow-sm">
+              {activeFiles.length === 0 && <div className="text-sm text-slate-500 p-4">No files in this location.</div>}
+
+              <div className="grid sm:grid-cols-2 gap-3">
+                {activeFiles.map(f => {
+                  const fileHref = f.publicUrl || buildPublicUrl({ deptName: f._dept || "", sectionName: f._sec || "", dashObj: manifest.company?.[f._dept]?.[f._sec]?.[f._dash] || {}, file: f });
+                  return (
+                    <div key={f.id || (f.name + fileHref)} className="flex items-center justify-between gap-3 p-3 border rounded-md hover:shadow-md transition">
+                      <div className="min-w-0 flex items-center gap-3">
+                        <DocumentIcon className="w-5 h-5 text-slate-400" />
+                        <div>
+                          <div className="text-sm font-semibold truncate">{f.name || f.url || "Unnamed file"}</div>
+                          <div className="text-xs text-slate-400 truncate">{f.relativePath || "(root)"} • {(f.type || "file")}</div>
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <a href={fileHref} target="_blank" rel="noreferrer noopener" onClick={(e)=>e.stopPropagation()} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1">
+                          <ArrowTopRightOnSquareIcon className="w-4 h-4" /> Open
+                        </a>
+
+                       
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {notice && <div className="mt-3 text-sm text-emerald-700">{notice}</div>}
+          </main>
         </div>
       </div>
     </div>

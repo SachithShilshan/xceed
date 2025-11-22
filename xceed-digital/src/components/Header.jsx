@@ -21,11 +21,10 @@ export default function Header() {
           {/* LEFT: Logo + Name */}
           <Link to="/" className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-xceed-500 to-indigo-600 text-white text-2xl font-bold flex items-center justify-center shadow-md">
-              XD
+              X
             </div>
             <div>
-              <div className="text-2xl font-extrabold text-slate-900 tracking-tight">Xceed Digital</div>
-              <div className="text-sm text-slate-500 leading-tight -mt-0.5">Data · Automation · AI</div>
+              <div className="text-2xl font-extrabold text-slate-900 tracking-tight">Xceed Analytics</div>
             </div>
           </Link>
 

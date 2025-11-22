@@ -9,19 +9,18 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
           <div>
             <div className="font-semibold text-lg">Xceed Digital</div>
-            <div className="text-sm text-slate-500 mt-0">Data · Automation · AI</div>
-            <div className="text-xs text-slate-400 mt-2">© {new Date().getFullYear()} Xceed Digital. All rights reserved.</div>
+             <div className="text-xs text-slate-400 mt-2">© {new Date().getFullYear()} Xceed Digital. All rights reserved.</div>
           </div>
 
           <div className="flex gap-6 items-center">
             <nav className="flex gap-4">
               <Link to="/" className="text-sm text-slate-600 hover:text-slate-900">Home</Link>
               <Link to="/departments" className="text-sm text-slate-600 hover:text-slate-900">Departments</Link>
-              <Link to="/data-manager" className="text-sm text-slate-600 hover:text-slate-900">Data Manager</Link>
+              <Link to="/data-manager" className="text-sm text-slate-600 hover:text-slate-900">Data</Link>
               <Link to="/docs" className="text-sm text-slate-600 hover:text-slate-900">Docs</Link>
             </nav>
 
-            <a href="mailto:hello@xceed.example" className="px-3 py-2 rounded-md border text-sm">Contact</a>
+            <a href="mailto:hello-xceed@outlook.com" className="px-3 py-2 rounded-md border text-sm">Contact</a>
           </div>
         </div>
       </div>

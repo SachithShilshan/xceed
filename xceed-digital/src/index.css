@@ -59,3 +59,69 @@ body {
 :root {
   --header-height: 80px; /* match Header.jsx h-20 (80px) */
 }
+
+
+
+
+/* ---- SQL Object Explorer look: dashed tree lines & polish ---- */
+.tree-wrap { position: relative; --tree-line-color: rgba(148,163,184,0.45); }
+.tree-node { position: relative; }
+.tree-node:not(.root)::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  border-left: 1px dashed var(--tree-line-color);
+  pointer-events: none;
+  z-index: 0;
+}
+.tree-item {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 28px;
+  transition: background 120ms ease, box-shadow 120ms ease, transform 80ms ease;
+}
+.tree-item::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  border-top: 1px dashed var(--tree-line-color);
+  pointer-events: none;
+  z-index: 9;
+}
+.tree-item .toggle-btn { z-index: 11; display: inline-flex; align-items: center; justify-content: center; }
+.tree-item.active { background: linear-gradient(90deg, rgba(16,185,129,0.05), rgba(255,255,255,0)); box-shadow: 0 1px 6px rgba(2,6,23,0.04); }
+.tree-item:hover { transform: translateY(-1px); }
+
+/* depth helpers */
+.tree-item.depth-0 { padding-left: 28px; }
+.tree-item.depth-1 { padding-left: 44px; }
+.tree-item.depth-2 { padding-left: 60px; }
+.tree-item.depth-3 { padding-left: 76px; }
+
+/* focused-dashboard highlight (middle pane) */
+.tree-item.root-dashboard {
+  background: linear-gradient(90deg, rgba(254,230,230,0.95), rgba(255,255,255,0));
+  box-shadow: 0 1px 4px rgba(191, 54, 38, 0.06);
+}
+.tree-item.root-dashboard .text-xs { color: #9f1239; }
+
+/* subtle card and shadow polish */
+.shadow-sm { box-shadow: 0 1px 3px rgba(2,6,23,0.04); }
+.bg-rose-50 { background-color: #fff1f2; }
+
+/* responsive small tweaks */
+@media (max-width: 768px) {
+  .tree-wrap { --tree-line-color: rgba(148,163,184,0.28); }
+  .tree-item { padding-left: 20px; }
+  .tree-item::before { width: 10px; left: 10px; }
+  .tree-node:not(.root)::before { left: 10px; }
+}

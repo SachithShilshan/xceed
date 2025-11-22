@@ -20,7 +20,7 @@ export default function Shell({ children }) {
     "/dash",
     // "/data-manager",
     "/gallery",
-    "/docs"
+    //"/docs"
   ];
 
   const showSidebar = sidebarRoutePrefixes.some(prefix => path.startsWith(prefix));
