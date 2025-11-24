@@ -1,5 +1,6 @@
 // src/pages/DataManager.jsx
 import React, { useEffect, useMemo, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import datasetsManifest from "../data/datasets.json";
 import {
   MagnifyingGlassIcon,
@@ -14,15 +15,11 @@ import {
 } from "@heroicons/react/24/outline";
 
 /**
- * DataManager — 3-column Explorer UI (fixed focused-dashboard + polish)
- * Left: Global Explorer (dept -> section -> dashboard)
- * Middle: Focused Dashboard root + folder tree (acts like the explorer detail)
- * Right: Files list for currently selected node (dashboard/path/section/dept)
+ * DataManager — 3-column Explorer UI with URL-driven focus
+ * - Reads ?dept=...&dash=... (dash can be dashId or dashName)
+ * - Expands left tree, focuses middle dashboard and selects root so right shows files
  *
- * Improvements:
- * - Fixed focused dashboard folder-tree extraction
- * - Better visuals (icons, hover, subtle shadows, transitions)
- * - Folder expand/collapse recursive and selection works
+ * Drop-in replacement for your previous DataManager.jsx
  */
 
 /* ---------- helpers ---------- */
@@ -81,7 +78,6 @@ function buildTreeFromManifest(manifest) {
   return tree;
 }
 
-// Convert folderMap -> nested folder nodes (for recursive rendering)
 function folderMapToTree(folderMap) {
   function buildNode(pathKey) {
     const entry = folderMap[pathKey] || { files: [], folders: new Set() };
@@ -100,6 +96,8 @@ function folderMapToTree(folderMap) {
 /* ---------- component ---------- */
 
 export default function DataManager() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [manifest, setManifest] = useState(() => JSON.parse(JSON.stringify(datasetsManifest)));
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("name-asc");
@@ -110,7 +108,13 @@ export default function DataManager() {
 
   const rawTree = useMemo(() => buildTreeFromManifest(manifest), [manifest]);
 
-  // visible tree (filtered)
+  // helpers to build keys
+  function deptKey(d) { return `dept:${d}`; }
+  function secKey(d, s) { return `dept:${d}|sec:${s}`; }
+  function dashKey(d, s, dd) { return `dept:${d}|sec:${s}|dash:${dd}`; }
+  function pathNodeKey(dk, path) { return `${dk}|path:${path}`; }
+
+  // filter tree by search query
   const visibleTree = useMemo(() => {
     const q = (query || "").trim().toLowerCase();
     if (!q) return rawTree;
@@ -167,22 +171,18 @@ export default function DataManager() {
     return out;
   }, [rawTree, query]);
 
-  // key helpers
-  function deptKey(d) { return `dept:${d}`; }
-  function secKey(d, s) { return `dept:${d}|sec:${s}`; }
-  function dashKey(d, s, dd) { return `dept:${d}|sec:${s}|dash:${dd}`; }
-  function pathNodeKey(dk, path) { return `${dk}|path:${path}`; }
-
-  // collect visible keys for expandAll
+  // expand/collapse helpers
   function collectVisibleKeys(treeSrc) {
     const keys = [];
     treeSrc.forEach(dept => {
-      const dKey = deptKey(dept.deptName); keys.push(dKey);
+      const deptKey = `dept:${dept.deptName}`; keys.push(deptKey);
       dept.sections.forEach(sec => {
-        const sKey = secKey(dept.deptName, sec.sectionName); keys.push(sKey);
+        const secKey = `${deptKey}|sec:${sec.sectionName}`; keys.push(secKey);
         sec.dashboards.forEach(dash => {
-          const dk = dashKey(dept.deptName, sec.sectionName, dash.dashName); keys.push(dk);
-          Object.keys(dash.folderMap || {}).forEach(pathKey => keys.push(`${dk}|path:${pathKey}`));
+          const dashKey = `${secKey}|dash:${dash.dashName}`; keys.push(dashKey);
+          Object.keys(dash.folderMap || {}).forEach(pathKey => {
+            keys.push(`${dashKey}|path:${pathKey}`);
+          });
         });
       });
     });
@@ -241,7 +241,7 @@ export default function DataManager() {
     return a;
   }
 
-  // get files for node
+  // get files for selected node
   function getFilesForNodeKey(nodeKey) {
     if (!nodeKey) return [];
     const parts = nodeKey.split("|");
@@ -284,7 +284,6 @@ export default function DataManager() {
     return sortFiles(files);
   }
 
-  // breadcrumbs
   function breadcrumbsFromNodeKey(nodeKey) {
     if (!nodeKey) return [];
     const parts = nodeKey.split("|");
@@ -303,54 +302,7 @@ export default function DataManager() {
     return crumbs;
   }
 
-  // initialize: expand depts + select first dash
-  useEffect(() => {
-    const obj = {};
-    rawTree.forEach(d => { obj[deptKey(d.deptName)] = true; });
-    setExpanded(obj);
-
-    if (!activeNode && rawTree.length > 0) {
-      const d = rawTree[0];
-      const s = d.sections && d.sections[0];
-      const dash = s && s.dashboards && s.dashboards[0];
-      if (d && s && dash) {
-        const k = dashKey(d.deptName, s.sectionName, dash.dashName);
-        setActiveNode(k);
-        // set focused dashboard properly (extract folderMap defensively)
-        const folderMap = dash.folderMap || dash.dashObj?.dataset?.folderMap || dash.dashObj?.folderMap || {};
-        setFocusedDashboard({
-          dept: d.deptName,
-          section: s.sectionName,
-          dashName: dash.dashName,
-          dashObj: dash.dashObj,
-          folderTree: folderMapToTree(folderMap)
-        });
-      } else if (d && s) {
-        setActiveNode(secKey(d.deptName, s.sectionName));
-      } else if (d) {
-        setActiveNode(deptKey(d.deptName));
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /* ---------- when clicking a dashboard on left: focus into middle pane ---------- */
-  function focusDashboardFromLeft(deptName, sectionName, dashName, dashObj, dashEntry) {
-    const k = dashKey(deptName, sectionName, dashName);
-    setActiveNode(k);
-    const folderMap = (dashEntry && dashEntry.folderMap) || dashObj?.dataset?.folderMap || dashObj?.folderMap || {};
-    setFocusedDashboard({
-      dept: deptName,
-      section: sectionName,
-      dashName,
-      dashObj,
-      folderTree: folderMapToTree(folderMap)
-    });
-    // expand left nodes
-    setExpanded(prev => ({ ...prev, [deptKey(deptName)]: true, [secKey(deptName, sectionName)]: true, [k]: true }));
-  }
-
-  /* ---------- recursive FolderNode for middle pane ---------- */
+  // folder node for middle pane
   function FolderNode({ node, parentKey }) {
     const thisKey = parentKey + "|path:" + (node.key || "");
     const isExpanded = !!expanded[thisKey];
@@ -393,11 +345,216 @@ export default function DataManager() {
     );
   }
 
+  // init: expand departments and select first dash (and read URL params)
+  useEffect(() => {
+    const obj = {};
+    rawTree.forEach(d => { obj[deptKey(d.deptName)] = true; });
+    setExpanded(obj);
+
+    const params = new URLSearchParams(location.search);
+    const deptParam = params.get("dept");
+    const dashParam = params.get("dash"); // can be dashId or dashName
+
+    // helper to find dashboard in manifest. returns {dept, section, dashName, dashObj, folderMap}
+    function findDashboardByParams(deptName, dashIdentifier) {
+      if (!manifest?.company) return null;
+      // search only dept if present
+      const deptList = deptName ? [deptName] : Object.keys(manifest.company);
+      for (const dept of deptList) {
+        const secObj = manifest.company[dept] || {};
+        for (const section of Object.keys(secObj)) {
+          const s = secObj[section];
+          for (const dashName of Object.keys(s)) {
+            const dashObj = s[dashName];
+            const id = dashObj?.dashId || dashName;
+            // match by either id or name (case-insensitive)
+            if (!dashIdentifier) {
+              // if no dashIdentifier provided, return first one
+              return { dept, section, dashName, dashObj, folderMap: dashObj?.folderMap || dashObj?.dataset?.folderMap || dashObj?.dataset?.files ? dashObj?.folderMap || buildFolderMapFromFiles(dashObj?.dataset?.files || []) : {} };
+            }
+            if (id === dashIdentifier || dashName === dashIdentifier || id.toString().toLowerCase() === dashIdentifier.toLowerCase() || dashName.toLowerCase() === dashIdentifier.toLowerCase()) {
+              return { dept, section, dashName, dashObj, folderMap: dashObj?.folderMap || dashObj?.dataset?.folderMap || dashObj?.dataset?.files ? dashObj?.folderMap || buildFolderMapFromFiles(dashObj?.dataset?.files || []) : {} };
+            }
+          }
+        }
+      }
+      return null;
+    }
+
+    // fallback to build folder map from files if manifest stores files without folderMap
+    function buildFolderMapFromFiles(files = []) {
+      const folderMap = {};
+      files.forEach(f => {
+        const rel = (f.relativePath || "").trim();
+        const key = rel ? rel.split("/").filter(Boolean).join("/") : "";
+        if (!folderMap[key]) folderMap[key] = { files: [], folders: new Set() };
+        folderMap[key].files.push(f);
+        if (key) {
+          const parts = key.split("/");
+          for (let i = 0; i < parts.length; i++) {
+            const parent = parts.slice(0, i).join("/");
+            const child = parts.slice(0, i + 1).join("/");
+            if (!folderMap[parent]) folderMap[parent] = { files: [], folders: new Set() };
+            folderMap[parent].folders.add(child);
+          }
+        }
+      });
+      if (!folderMap[""]) folderMap[""] = folderMap[""] || { files: [], folders: new Set() };
+      return folderMap;
+    }
+
+    // if URL provides dept & dash, focus that dashboard
+    if (dashParam) {
+      const found = findDashboardByParams(deptParam, dashParam);
+      if (found) {
+        const { dept, section, dashName, dashObj, folderMap } = found;
+        const dk = dashKey(dept, section, dashName);
+        setExpanded(prev => ({ ...prev, [deptKey(dept)]: true, [secKey(dept, section)]: true, [dk]: true }));
+        setFocusedDashboard({
+          dept,
+          section,
+          dashName,
+          dashObj,
+          folderTree: folderMapToTree(folderMap || {})
+        });
+        // set active node to dashboard root (so files show)
+        setActiveNode(dk);
+        return;
+      }
+    }
+
+    // else default select first available dashboard (existing behavior)
+    if (!activeNode && rawTree.length > 0) {
+      const d = rawTree[0];
+      const s = d.sections && d.sections[0];
+      const dash = s && s.dashboards && s.dashboards[0];
+      if (d && s && dash) {
+        const k = dashKey(d.deptName, s.sectionName, dash.dashName);
+        setActiveNode(k);
+        setFocusedDashboard({
+          dept: d.deptName,
+          section: s.sectionName,
+          dashName: dash.dashName,
+          dashObj: dash.dashObj,
+          folderTree: folderMapToTree(dash.folderMap || {})
+        });
+      } else if (d && s) {
+        setActiveNode(secKey(d.deptName, s.sectionName));
+      } else if (d) {
+        setActiveNode(deptKey(d.deptName));
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.search, rawTree]);
+
+  // when user clicks dashboard from left explorer: focus it
+  function focusDashboardFromLeft(deptName, sectionName, dashName, dashEntry) {
+    const dk = dashKey(deptName, sectionName, dashName);
+    const folderMap = (dashEntry && dashEntry.folderMap) || dashEntry?.dashObj?.dataset?.folderMap || dashEntry?.dashObj?.folderMap || dashEntry?.dashObj?.dataset?.files ? dashEntry.folderMap || buildFolderMapFromFiles(dashEntry?.dashObj?.dataset?.files || []) : {};
+    setExpanded(prev => ({ ...prev, [deptKey(deptName)]: true, [secKey(deptName, sectionName)]: true, [dk]: true }));
+    setFocusedDashboard({
+      dept: deptName,
+      section: sectionName,
+      dashName,
+      dashObj: dashEntry?.dashObj || {},
+      folderTree: folderMapToTree(folderMap || {})
+    });
+    setActiveNode(dk);
+    // update URL for shareability
+    navigate(`/data-manager?dept=${encodeURIComponent(deptName)}&dash=${encodeURIComponent(dashEntry?.dashObj?.dashId || dashName)}`, { replace: true });
+  }
+
+  // helper: build folder map from files (needs to be inside component scope)
+  function buildFolderMapFromFiles(files = []) {
+    const folderMap = {};
+    files.forEach(f => {
+      const rel = (f.relativePath || "").trim();
+      const key = rel ? rel.split("/").filter(Boolean).join("/") : "";
+      if (!folderMap[key]) folderMap[key] = { files: [], folders: new Set() };
+      folderMap[key].files.push(f);
+      if (key) {
+        const parts = key.split("/");
+        for (let i = 0; i < parts.length; i++) {
+          const parent = parts.slice(0, i).join("/");
+          const child = parts.slice(0, i + 1).join("/");
+          if (!folderMap[parent]) folderMap[parent] = { files: [], folders: new Set() };
+          folderMap[parent].folders.add(child);
+        }
+      }
+    });
+    if (!folderMap[""]) folderMap[""] = folderMap[""] || { files: [], folders: new Set() };
+    return folderMap;
+  }
+
+  // UI: files for active node
+  function getFilesForNodeKey(nodeKey) {
+    if (!nodeKey) return [];
+    const parts = nodeKey.split("|");
+    const dept = parts[0]?.replace(/^dept:/, "");
+    const sec = parts[1]?.replace(/^sec:/, "");
+    const dash = parts[2]?.replace(/^dash:/, "");
+    const pathPart = parts.find(p => p.startsWith("path:"));
+    const path = pathPart ? pathPart.replace(/^path:/, "") : null;
+
+    if (!dept) return [];
+    if (dept && !sec) {
+      const depObj = manifest.company?.[dept] || {};
+      let coll = [];
+      Object.keys(depObj).forEach(s => {
+        Object.keys(depObj[s] || {}).forEach(d => {
+          const files = (depObj[s][d]?.dataset?.files || []).map(f => ({ ...f, _dept: dept, _sec: s, _dash: d }));
+          coll = coll.concat(files);
+        });
+      });
+      return sortFiles(coll);
+    }
+    if (dept && sec && !dash) {
+      const secObj = manifest.company?.[dept]?.[sec] || {};
+      let coll = [];
+      Object.keys(secObj).forEach(d => {
+        const files = (secObj[d]?.dataset?.files || []).map(f => ({ ...f, _dept: dept, _sec: sec, _dash: d }));
+        coll = coll.concat(files);
+      });
+      return sortFiles(coll);
+    }
+    const dashObj = manifest.company?.[dept]?.[sec]?.[dash] || {};
+    let files = (dashObj.dataset?.files || []).map(f => ({ ...f, _dept: dept, _sec: sec, _dash: dash }));
+    if (path !== null && path !== "") {
+      files = files.filter(f => ((f.relativePath || "") === path || (f.relativePath || "").startsWith(path + "/")));
+    }
+    return sortFiles(files);
+  }
+
+  function sortFiles(arr) {
+    const a = arr.slice();
+    if (sortBy === "name-asc") a.sort((x,y)=> (x.name||"").localeCompare(y.name||""));
+    if (sortBy === "name-desc") a.sort((x,y)=> (y.name||"").localeCompare(x.name||""));
+    return a;
+  }
+
+  // breadcrumbs
+  function breadcrumbsFromNodeKey(nodeKey) {
+    if (!nodeKey) return [];
+    const parts = nodeKey.split("|");
+    const crumbs = [];
+    let acc = "";
+    for (let i=0;i<parts.length;i++) {
+      const p = parts[i];
+      if (i === 0) {
+        acc = p;
+        crumbs.push({ key: acc, label: p.replace(/^dept:/, "") });
+      } else {
+        acc = acc + "|" + p;
+        crumbs.push({ key: acc, label: p.replace(/^sec:|^dash:|^path:/, "") });
+      }
+    }
+    return crumbs;
+  }
+
+  const activeFiles = useMemo(() => getFilesForNodeKey(activeNode), [activeNode, manifest, sortBy]);
+  const crumbs = useMemo(() => breadcrumbsFromNodeKey(activeNode), [activeNode]);
+
   /* ---------- Render ---------- */
-
-  const activeFiles = getFilesForNodeKey(activeNode);
-  const crumbs = breadcrumbsFromNodeKey(activeNode);
-
   return (
     <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8 py-6">
       <div className="flex items-start justify-between gap-4 mb-4">
@@ -432,11 +589,11 @@ export default function DataManager() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-        <div className="grid grid-cols-12">
+      <div className="bg-white rounded-lg shadow-sm border overflow-hidden w-full max-w-[1600px] h-[700px] mx-auto">
+        <div className="grid grid-cols-12 h-full">
           {/* LEFT: Explorer */}
           <aside className="col-span-12 md:col-span-4 lg:col-span-3 border-r bg-slate-50">
-            <div className="p-4 h-[640px] overflow-auto tree-wrap">
+            <div className="p-4 h-full overflow-auto tree-wrap">
               <div className="text-xs text-slate-500 mb-3">Explorer</div>
 
               {visibleTree.length === 0 && <div className="text-xs text-slate-500">No results</div>}
@@ -501,7 +658,7 @@ export default function DataManager() {
                                         <div key={dk}>
                                           {/* Dashboard (click to focus in middle) */}
                                           <div
-                                            onClick={() => focusDashboardFromLeft(dept.deptName, sec.sectionName, d.dashName, d.dashObj, d)}
+                                            onClick={() => focusDashboardFromLeft(dept.deptName, sec.sectionName, d.dashName, d)}
                                             className="tree-node"
                                           >
                                             <div className={`tree-item ${focusedDashboard?.dashName === d.dashName ? "root-dashboard" : ""} depth-2`}>
@@ -537,7 +694,7 @@ export default function DataManager() {
 
           {/* MIDDLE: Focused Dashboard root + folder tree */}
           <aside className="col-span-12 md:col-span-4 lg:col-span-4 border-r bg-white">
-            <div className="p-4 h-[640px] overflow-auto">
+            <div className="p-4 h-full overflow-auto">
               <div className="text-xs text-slate-500 mb-3">Focused Dashboard</div>
 
               {!focusedDashboard && (
@@ -556,7 +713,6 @@ export default function DataManager() {
                     </div>
                   </div>
 
-                  {/* render folder tree */}
                   <div className="mt-2">
                     <FolderNode node={focusedDashboard.folderTree} parentKey={dashKey(focusedDashboard.dept, focusedDashboard.section, focusedDashboard.dashName)} />
                   </div>
@@ -566,53 +722,61 @@ export default function DataManager() {
           </aside>
 
           {/* RIGHT: Files list (for activeNode) */}
-          <main className="col-span-12 md:col-span-4 lg:col-span-5 p-4">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <div className="text-xs text-slate-400">Location</div>
-                <div className="mt-1 text-sm">
-                  {crumbs.length === 0 ? <span className="text-slate-500">No selection</span> : crumbs.map((c,i) => (
-                    <button key={c.key} onClick={() => setActiveNode(c.key)} className={`text-sm px-2 py-1 rounded-md ${i===crumbs.length-1 ? "bg-emerald-50 text-emerald-700" : "hover:bg-slate-100 text-slate-600"}`}>{c.label}</button>
-                  ))}
+          <main className="col-span-12 md:col-span-4 lg:col-span-5 p-4 h-full overflow-hidden">
+            <div className="flex flex-col h-full">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <div className="text-xs text-slate-400">Location</div>
+                  <div className="mt-1 text-sm">
+                    {crumbs.length === 0 ? <span className="text-slate-500">No selection</span> : crumbs.map((c,i) => (
+                      <button key={c.key} onClick={() => setActiveNode(c.key)} className={`text-sm px-2 py-1 rounded-md ${i===crumbs.length-1 ? "bg-emerald-50 text-emerald-700" : "hover:bg-slate-100 text-slate-600"}`}>{c.label}</button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <div className="text-xs text-slate-500">Items</div>
+                  <div className="text-sm font-medium px-2 py-1 bg-slate-100 rounded">{activeFiles.length}</div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2">
-                <div className="text-xs text-slate-500">Items</div>
-                <div className="text-sm font-medium px-2 py-1 bg-slate-100 rounded">{activeFiles.length}</div>
-              </div>
-            </div>
+              <div className="bg-white border rounded-md p-3 space-y-2 shadow-sm flex-1 overflow-auto">
+                {activeFiles.length === 0 && <div className="text-sm text-slate-500 p-4">No files in this location.</div>}
 
-            <div className="bg-white border rounded-md p-3 space-y-2 shadow-sm">
-              {activeFiles.length === 0 && <div className="text-sm text-slate-500 p-4">No files in this location.</div>}
+                <div className="grid sm:grid-cols-1 gap-3">
+                  {activeFiles.map(f => {
+                    const fileHref = f.publicUrl || buildPublicUrl({ deptName: f._dept || "", sectionName: f._sec || "", dashObj: manifest.company?.[f._dept]?.[f._sec]?.[f._dash] || {}, file: f });
+                    return (
+                      <div key={f.id || (f.name + fileHref)} className="flex items-center justify-between gap-3 p-3 border rounded-md hover:shadow-md transition">
+                        <div className="min-w-0 flex items-center gap-3">
+                          <DocumentIcon className="w-5 h-5 text-slate-400" />
+                          <div>
+                            <div className="text-sm font-semibold truncate">{f.name || f.url || "Unnamed file"}</div>
+                            <div className="text-xs text-slate-400 truncate">{f.relativePath || "(root)"} • {(f.type || "file")}</div>
+                          </div>
+                        </div>
 
-              <div className="grid sm:grid-cols-2 gap-3">
-                {activeFiles.map(f => {
-                  const fileHref = f.publicUrl || buildPublicUrl({ deptName: f._dept || "", sectionName: f._sec || "", dashObj: manifest.company?.[f._dept]?.[f._sec]?.[f._dash] || {}, file: f });
-                  return (
-                    <div key={f.id || (f.name + fileHref)} className="flex items-center justify-between gap-3 p-3 border rounded-md hover:shadow-md transition">
-                      <div className="min-w-0 flex items-center gap-3">
-                        <DocumentIcon className="w-5 h-5 text-slate-400" />
-                        <div>
-                          <div className="text-sm font-semibold truncate">{f.name || f.url || "Unnamed file"}</div>
-                          <div className="text-xs text-slate-400 truncate">{f.relativePath || "(root)"} • {(f.type || "file")}</div>
+                        <div className="flex items-center gap-2">
+                          <a href={fileHref} target="_blank" rel="noreferrer noopener" onClick={(e)=>e.stopPropagation()} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1">
+                            <ArrowTopRightOnSquareIcon className="w-4 h-4" /> Open
+                          </a>
+
+                          <button onClick={() => copyLink(f, f._dept, f._sec, f._dash)} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1">
+                            <DocumentDuplicateIcon className="w-4 h-4" /> Copy
+                          </button>
+
+                          <button onClick={() => removeFileClient(f._dept, f._sec, f._dash, f.id)} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1 text-rose-600">
+                            <TrashIcon className="w-4 h-4" /> Remove
+                          </button>
                         </div>
                       </div>
-
-                      <div className="flex items-center gap-2">
-                        <a href={fileHref} target="_blank" rel="noreferrer noopener" onClick={(e)=>e.stopPropagation()} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1">
-                          <ArrowTopRightOnSquareIcon className="w-4 h-4" /> Open
-                        </a>
-
-                       
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
 
-            {notice && <div className="mt-3 text-sm text-emerald-700">{notice}</div>}
+              {notice && <div className="mt-3 text-sm text-emerald-700">{notice}</div>}
+            </div>
           </main>
         </div>
       </div>
