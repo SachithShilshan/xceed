@@ -761,13 +761,6 @@ export default function DataManager() {
                             <ArrowTopRightOnSquareIcon className="w-4 h-4" /> Open
                           </a>
 
-                          <button onClick={() => copyLink(f, f._dept, f._sec, f._dash)} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1">
-                            <DocumentDuplicateIcon className="w-4 h-4" /> Copy
-                          </button>
-
-                          <button onClick={() => removeFileClient(f._dept, f._sec, f._dash, f.id)} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1 text-rose-600">
-                            <TrashIcon className="w-4 h-4" /> Remove
-                          </button>
                         </div>
                       </div>
                     );

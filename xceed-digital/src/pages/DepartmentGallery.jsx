@@ -158,14 +158,14 @@ export default function DepartmentGallery() {
                       to={`/dash/${encodeURIComponent(d.id)}`}
                       className="px-3 py-2 rounded-md border text-sm text-center"
                     >
-                      Open 
+                      Open
                     </Link>
                     <Link
-  to={`/data-manager?dept=${encodeURIComponent(d.dept)}&dash=${encodeURIComponent(d.id)}`}
-  className="px-3 py-2 rounded-md border text-sm text-center"
->
-  Datasets
-</Link>
+                      to={`/data-manager?dept=${encodeURIComponent(d.dept)}&dash=${encodeURIComponent(d.id)}`}
+                      className="px-3 py-2 rounded-md border text-sm text-center"
+                    >
+                      Datasets
+                    </Link>
                   </div>
                 </div>
               </div>

@@ -125,3 +125,29 @@ body {
   .tree-item::before { width: 10px; left: 10px; }
   .tree-node:not(.root)::before { left: 10px; }
 }
+
+
+
+
+
+
+/* global shell helpers */
+:root {
+  /* adjust header height if your Header uses a different height */
+  --header-height: 80px;
+}
+
+/* optional: make header take the variable height to keep layout consistent */
+.app-header {
+  height: var(--header-height);
+}
+
+/* ensure body doesn't add extra margin that breaks calc heights */
+html, body, #root {
+  height: 100%;
+}
+
+/* small niceties: when sidebar overlay open it won't allow background scroll */
+.is-sidebar-open body {
+  overflow: hidden;
+}

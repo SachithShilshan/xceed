@@ -47,9 +47,7 @@ export default function Header() {
 
           {/* RIGHT: Actions */}
           <div className="flex items-center gap-4">
-            <button className="p-2 rounded-full hover:bg-slate-100 transition" title="Notifications">
-              <BellIcon className="w-6 h-6 text-slate-700" />
-            </button>
+            
 
             <Link to="/departments" className="hidden sm:inline-flex items-center px-5 py-2.5 rounded-md bg-xceed-500 hover:bg-xceed-600 text-white text-[15px] font-semibold shadow-sm transition">
               Open Portal

@@ -55,13 +55,13 @@ export default function Home() {
           <div className="flex-1 min-w-0">
             <h3 className="text-lg font-bold text-slate-900">Buy this system — Dashboard & Data Management</h3>
             <p className="mt-2 text-slate-600 max-w-prose">
-              Get a ready-to-deploy Xceed dashboard system plus setup support for only <strong>$29.98</strong>.
-              This includes dashboard development, basic data management, and a short onboarding call to get your datasets connected.
+              Get a ready-to-deploy Xceed Analytics system plus setup support for only <strong>$29.98</strong>.
+              This includes dashboard development, data management, and a short onboarding call to get your datasets connected.
             </p>
             <ul className="mt-3 text-sm text-slate-500 list-disc list-inside">
               <li>One-time fee: <strong>$29.98</strong></li>
               <li>Dashboard development & configuration</li>
-              <li>Basic data cleaning & mapping</li>
+              <li>Data cleaning & mapping</li>
               <li>Support: initial onboarding call & Customize System</li>
             </ul>
           </div>
