@@ -14,6 +14,8 @@ import {
   DocumentIcon,
 } from "@heroicons/react/24/outline";
 
+import ResponsiveContainer from "../components/ResponsiveContainer";
+
 /**
  * DataManager — 3-column Explorer UI with URL-driven focus
  * - Reads ?dept=...&dash=... (dash can be dashId or dashName)
@@ -556,6 +558,7 @@ export default function DataManager() {
 
   /* ---------- Render ---------- */
   return (
+    <ResponsiveContainer>
     <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8 py-6">
       <div className="flex items-start justify-between gap-4 mb-4">
         <div>
@@ -589,190 +592,193 @@ export default function DataManager() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm border overflow-hidden w-full max-w-[1600px] h-[700px] mx-auto">
-        <div className="grid grid-cols-12 h-full">
-          {/* LEFT: Explorer */}
-          <aside className="col-span-12 md:col-span-4 lg:col-span-3 border-r bg-slate-50">
-            <div className="p-4 h-full overflow-auto tree-wrap">
-              <div className="text-xs text-slate-500 mb-3">Explorer</div>
+      {/* ---------- Fixed-size explorer card (replace your existing outer container) ---------- */}
+<div className="bg-white rounded-lg shadow-sm border w-full max-w-[1600px] h-[700px] mx-auto">
+  <div className="grid grid-cols-12 h-full">
+    {/* LEFT: Explorer */}
+    <aside className="col-span-12 md:col-span-4 lg:col-span-3 border-r bg-slate-50">
+      <div className="p-4 h-full overflow-auto tree-wrap">
+        <div className="text-xs text-slate-500 mb-3">Explorer</div>
 
-              {visibleTree.length === 0 && <div className="text-xs text-slate-500">No results</div>}
+        {visibleTree.length === 0 && <div className="text-xs text-slate-500">No results</div>}
 
-              <div className="space-y-2">
-                {visibleTree.map(dept => {
-                  const dKey = deptKey(dept.deptName);
-                  return (
-                    <div key={dept.deptName}>
-                      {/* Department */}
-                      <div
-                        onClick={() => { setActiveNode(dKey); setExpanded(prev => ({ ...prev, [dKey]: true })); }}
-                        className={`tree-node root`}
-                      >
-                        <div className={`tree-item ${activeNode === dKey ? "active" : ""} depth-0`}>
-                          <button
-                            onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [dKey]: !prev[dKey] })); }}
-                            className="toggle-btn p-1 rounded-md hover:bg-slate-100"
-                            aria-label="toggle"
+        <div className="space-y-2">
+          {visibleTree.map(dept => {
+            const dKey = deptKey(dept.deptName);
+            return (
+              <div key={dept.deptName}>
+                {/* Department */}
+                <div
+                  onClick={() => { setActiveNode(dKey); setExpanded(prev => ({ ...prev, [dKey]: true })); }}
+                  className={`tree-node root`}
+                >
+                  <div className={`tree-item ${activeNode === dKey ? "active" : ""} depth-0`}>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [dKey]: !prev[dKey] })); }}
+                      className="toggle-btn p-1 rounded-md hover:bg-slate-100"
+                      aria-label="toggle"
+                    >
+                      {expanded[dKey] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
+                    </button>
+
+                    <div className="min-w-0">
+                      <div className={`text-sm font-medium truncate ${activeNode === dKey ? "text-emerald-700" : "text-slate-700"}`}>{dept.deptName}</div>
+                      <div className="text-[11px] text-slate-400">{dept.sections.length} sections</div>
+                    </div>
+                  </div>
+                </div>
+
+                {expanded[dKey] && (
+                  <div className="pl-0 mt-1 space-y-1">
+                    {dept.sections.map(sec => {
+                      const sKey = secKey(dept.deptName, sec.sectionName);
+                      return (
+                        <div key={sKey}>
+                          {/* Section */}
+                          <div
+                            onClick={() => { setActiveNode(sKey); setExpanded(prev => ({ ...prev, [sKey]: true })); }}
+                            className="tree-node"
                           >
-                            {expanded[dKey] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
-                          </button>
+                            <div className={`tree-item ${activeNode === sKey ? "active" : ""} depth-1`}>
+                              <button
+                                onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [sKey]: !prev[sKey] })); }}
+                                className="toggle-btn p-1 rounded-md hover:bg-slate-100"
+                              >
+                                {expanded[sKey] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
+                              </button>
 
-                          <div className="min-w-0">
-                            <div className={`text-sm font-medium truncate ${activeNode === dKey ? "text-emerald-700" : "text-slate-700"}`}>{dept.deptName}</div>
-                            <div className="text-[11px] text-slate-400">{dept.sections.length} sections</div>
+                              <div className="min-w-0">
+                                <div className={`text-xs font-semibold truncate ${activeNode === sKey ? "text-emerald-700" : "text-slate-700"}`}>{sec.sectionName}</div>
+                                <div className="text-[11px] text-slate-400">{sec.dashboards.length} dashboards</div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                      </div>
 
-                      {expanded[dKey] && (
-                        <div className="pl-0 mt-1 space-y-1">
-                          {dept.sections.map(sec => {
-                            const sKey = secKey(dept.deptName, sec.sectionName);
-                            return (
-                              <div key={sKey}>
-                                {/* Section */}
-                                <div
-                                  onClick={() => { setActiveNode(sKey); setExpanded(prev => ({ ...prev, [sKey]: true })); }}
-                                  className="tree-node"
-                                >
-                                  <div className={`tree-item ${activeNode === sKey ? "active" : ""} depth-1`}>
-                                    <button
-                                      onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [sKey]: !prev[sKey] })); }}
-                                      className="toggle-btn p-1 rounded-md hover:bg-slate-100"
+                          {expanded[sKey] && (
+                            <div className="pl-0 mt-1 space-y-1">
+                              {sec.dashboards.map(d => {
+                                const dk = dashKey(dept.deptName, sec.sectionName, d.dashName);
+                                return (
+                                  <div key={dk}>
+                                    {/* Dashboard (click to focus in middle) */}
+                                    <div
+                                      onClick={() => focusDashboardFromLeft(dept.deptName, sec.sectionName, d.dashName, d)}
+                                      className="tree-node"
                                     >
-                                      {expanded[sKey] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
-                                    </button>
+                                      <div className={`tree-item ${focusedDashboard?.dashName === d.dashName ? "root-dashboard" : ""} depth-2`}>
+                                        <button
+                                          onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [dk]: !prev[dk] })); }}
+                                          className="toggle-btn p-1 rounded-md hover:bg-slate-100"
+                                        >
+                                          {expanded[dk] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
+                                        </button>
 
-                                    <div className="min-w-0">
-                                      <div className={`text-xs font-semibold truncate ${activeNode === sKey ? "text-emerald-700" : "text-slate-700"}`}>{sec.sectionName}</div>
-                                      <div className="text-[11px] text-slate-400">{sec.dashboards.length} dashboards</div>
+                                        <div className="min-w-0">
+                                          <div className={`text-xs font-medium truncate ${focusedDashboard?.dashName === d.dashName ? "text-rose-700" : "text-slate-700"}`}>{d.dashName}</div>
+                                          <div className="text-[11px] text-slate-400">{(d.dashObj.dataset?.files || []).length} files</div>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-
-                                {expanded[sKey] && (
-                                  <div className="pl-0 mt-1 space-y-1">
-                                    {sec.dashboards.map(d => {
-                                      const dk = dashKey(dept.deptName, sec.sectionName, d.dashName);
-                                      return (
-                                        <div key={dk}>
-                                          {/* Dashboard (click to focus in middle) */}
-                                          <div
-                                            onClick={() => focusDashboardFromLeft(dept.deptName, sec.sectionName, d.dashName, d)}
-                                            className="tree-node"
-                                          >
-                                            <div className={`tree-item ${focusedDashboard?.dashName === d.dashName ? "root-dashboard" : ""} depth-2`}>
-                                              <button
-                                                onClick={(e) => { e.stopPropagation(); setExpanded(prev => ({ ...prev, [dk]: !prev[dk] })); }}
-                                                className="toggle-btn p-1 rounded-md hover:bg-slate-100"
-                                              >
-                                                {expanded[dk] ? <ChevronDownIcon className="w-4 h-4 text-slate-400" /> : <ChevronRightIcon className="w-4 h-4 text-slate-400" />}
-                                              </button>
-
-                                              <div className="min-w-0">
-                                                <div className={`text-xs font-medium truncate ${focusedDashboard?.dashName === d.dashName ? "text-rose-700" : "text-slate-700"}`}>{d.dashName}</div>
-                                                <div className="text-[11px] text-slate-400">{(d.dashObj.dataset?.files || []).length} files</div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                      );
-                                    })}
-                                  </div>
-                                )}
-                              </div>
-                            );
-                          })}
+                                );
+                              })}
+                            </div>
+                          )}
                         </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </aside>
-
-          {/* MIDDLE: Focused Dashboard root + folder tree */}
-          <aside className="col-span-12 md:col-span-4 lg:col-span-4 border-r bg-white">
-            <div className="p-4 h-full overflow-auto">
-              <div className="text-xs text-slate-500 mb-3">Focused Dashboard</div>
-
-              {!focusedDashboard && (
-                <div className="text-sm text-slate-500">Select a dashboard on the left to view its folder tree.</div>
-              )}
-
-              {focusedDashboard && (
-                <div className="space-y-3">
-                  <div className="p-3 rounded-md border bg-rose-50 shadow-sm">
-                    <div className="flex items-center justify-between gap-4">
-                      <div>
-                        <div className="text-sm font-semibold text-rose-700 truncate">{focusedDashboard.dashName}</div>
-                        <div className="text-xs text-slate-400">{focusedDashboard.dept} • {focusedDashboard.section}</div>
-                      </div>
-                      <div className="text-xs text-slate-500">{(focusedDashboard.dashObj?.dataset?.files || []).length} files</div>
-                    </div>
+                      );
+                    })}
                   </div>
-
-                  <div className="mt-2">
-                    <FolderNode node={focusedDashboard.folderTree} parentKey={dashKey(focusedDashboard.dept, focusedDashboard.section, focusedDashboard.dashName)} />
-                  </div>
-                </div>
-              )}
-            </div>
-          </aside>
-
-          {/* RIGHT: Files list (for activeNode) */}
-          <main className="col-span-12 md:col-span-4 lg:col-span-5 p-4 h-full overflow-hidden">
-            <div className="flex flex-col h-full">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <div className="text-xs text-slate-400">Location</div>
-                  <div className="mt-1 text-sm">
-                    {crumbs.length === 0 ? <span className="text-slate-500">No selection</span> : crumbs.map((c,i) => (
-                      <button key={c.key} onClick={() => setActiveNode(c.key)} className={`text-sm px-2 py-1 rounded-md ${i===crumbs.length-1 ? "bg-emerald-50 text-emerald-700" : "hover:bg-slate-100 text-slate-600"}`}>{c.label}</button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <div className="text-xs text-slate-500">Items</div>
-                  <div className="text-sm font-medium px-2 py-1 bg-slate-100 rounded">{activeFiles.length}</div>
-                </div>
+                )}
               </div>
-
-              <div className="bg-white border rounded-md p-3 space-y-2 shadow-sm flex-1 overflow-auto">
-                {activeFiles.length === 0 && <div className="text-sm text-slate-500 p-4">No files in this location.</div>}
-
-                <div className="grid sm:grid-cols-1 gap-3">
-                  {activeFiles.map(f => {
-                    const fileHref = f.publicUrl || buildPublicUrl({ deptName: f._dept || "", sectionName: f._sec || "", dashObj: manifest.company?.[f._dept]?.[f._sec]?.[f._dash] || {}, file: f });
-                    return (
-                      <div key={f.id || (f.name + fileHref)} className="flex items-center justify-between gap-3 p-3 border rounded-md hover:shadow-md transition">
-                        <div className="min-w-0 flex items-center gap-3">
-                          <DocumentIcon className="w-5 h-5 text-slate-400" />
-                          <div>
-                            <div className="text-sm font-semibold truncate">{f.name || f.url || "Unnamed file"}</div>
-                            <div className="text-xs text-slate-400 truncate">{f.relativePath || "(root)"} • {(f.type || "file")}</div>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <a href={fileHref} target="_blank" rel="noreferrer noopener" onClick={(e)=>e.stopPropagation()} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1">
-                            <ArrowTopRightOnSquareIcon className="w-4 h-4" /> Open
-                          </a>
-
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {notice && <div className="mt-3 text-sm text-emerald-700">{notice}</div>}
-            </div>
-          </main>
+            );
+          })}
         </div>
       </div>
+    </aside>
+
+    {/* MIDDLE: Focused Dashboard root + folder tree */}
+    <aside className="col-span-12 md:col-span-4 lg:col-span-4 border-r bg-white">
+      <div className="p-4 h-full overflow-auto">
+        <div className="text-xs text-slate-500 mb-3">Focused Dashboard</div>
+
+        {!focusedDashboard && (
+          <div className="text-sm text-slate-500">Select a dashboard on the left to view its folder tree.</div>
+        )}
+
+        {focusedDashboard && (
+          <div className="space-y-3">
+            <div className="p-3 rounded-md border bg-rose-50 shadow-sm">
+              <div className="flex items-center justify-between gap-4">
+                <div>
+                  <div className="text-sm font-semibold text-rose-700 truncate">{focusedDashboard.dashName}</div>
+                  <div className="text-xs text-slate-400">{focusedDashboard.dept} • {focusedDashboard.section}</div>
+                </div>
+                <div className="text-xs text-slate-500">{(focusedDashboard.dashObj?.dataset?.files || []).length} files</div>
+              </div>
+            </div>
+
+            <div className="mt-2">
+              <FolderNode node={focusedDashboard.folderTree} parentKey={dashKey(focusedDashboard.dept, focusedDashboard.section, focusedDashboard.dashName)} />
+            </div>
+          </div>
+        )}
+      </div>
+    </aside>
+
+    {/* RIGHT: Files list (for activeNode) */}
+    <main className="col-span-12 md:col-span-4 lg:col-span-5 p-4 h-full overflow-y-auto overflow-x-hidden">
+      <div className="flex flex-col h-full">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <div className="text-xs text-slate-400">Location</div>
+            <div className="mt-1 text-sm">
+              {crumbs.length === 0 ? <span className="text-slate-500">No selection</span> : crumbs.map((c,i) => (
+                <button key={c.key} onClick={() => setActiveNode(c.key)} className={`text-sm px-2 py-1 rounded-md ${i===crumbs.length-1 ? "bg-emerald-50 text-emerald-700" : "hover:bg-slate-100 text-slate-600"}`}>{c.label}</button>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <div className="text-xs text-slate-500">Items</div>
+            <div className="text-sm font-medium px-2 py-1 bg-slate-100 rounded">{activeFiles.length}</div>
+          </div>
+        </div>
+
+        <div className="bg-white border rounded-md p-3 space-y-2 shadow-sm flex-1 overflow-auto">
+          {activeFiles.length === 0 && <div className="text-sm text-slate-500 p-4">No files in this location.</div>}
+
+          <div className="grid sm:grid-cols-1 gap-3">
+            {activeFiles.map(f => {
+              const fileHref = f.publicUrl || buildPublicUrl({ deptName: f._dept || "", sectionName: f._sec || "", dashObj: manifest.company?.[f._dept]?.[f._sec]?.[f._dash] || {}, file: f });
+              return (
+                <div key={f.id || (f.name + fileHref)} className="flex items-center justify-between gap-3 p-3 border rounded-md hover:shadow-md transition">
+                  <div className="min-w-0 flex items-center gap-3">
+                    <DocumentIcon className="w-5 h-5 text-slate-400" />
+                    <div>
+                      <div className="text-sm font-semibold truncate">{f.name || f.url || "Unnamed file"}</div>
+                      <div className="text-xs text-slate-400 truncate">{f.relativePath || "(root)"} • {(f.type || "file")}</div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <a href={fileHref} target="_blank" rel="noreferrer noopener" onClick={(e)=>e.stopPropagation()} className="px-2 py-1 rounded-md border text-xs inline-flex items-center gap-1">
+                      <ArrowTopRightOnSquareIcon className="w-4 h-4" /> Open
+                    </a>
+
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {notice && <div className="mt-3 text-sm text-emerald-700">{notice}</div>}
+      </div>
+    </main>
+  </div>
+</div>
+
     </div>
+    </ResponsiveContainer>
   );
 }

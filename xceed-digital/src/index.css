@@ -151,3 +151,47 @@ html, body, #root {
 .is-sidebar-open body {
   overflow: hidden;
 }
+
+
+
+
+
+/* Force desktop canvas: prevents layout collapsing on small screens */
+html, body, #root {
+  height: 100%;
+  /* keep this so layout math works */
+}
+
+/* ensure the app will keep at least 1200px width */
+.app-desktop-canvas {
+  min-width: 1200px;   /* the same width as viewport meta */
+  width: 100%;
+  overflow-x: auto;    /* allow horizontal scroll on small screens */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* optional: visually center the desktop canvas inside the small device viewport */
+.app-desktop-center {
+  display: flex;
+  justify-content: center;
+}
+
+/* optional: reduce some mobile-specific touch behavior issues */
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+
+
+
+/* Force desktop canvas: ensures minimum width and horizontal scroll on small screens */
+.app-desktop-canvas {
+  min-width: 1200px;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.app-desktop-center {
+  display: flex;
+  justify-content: center;
+}

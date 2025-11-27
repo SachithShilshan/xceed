@@ -115,6 +115,46 @@
               }
             ]
           }
+        },
+        "Credit Risk Analytics Dashboard": {
+          "dashId": "Credit Risk Analytics Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOTE3MmVjMDAtMjk5Ny00OGZlLTk5OGUtZjhiYmQ1ZWE0M2I5IiwidCI6IjlkOWJiNDE4LTAyY2EtNDFiZC05YTRkLTEwOGE5NmIxM2JmZCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Credit card customer Finance Domain Analysis": {
+          "dashId": "Credit card customer Finance Domain Analysis",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiM2Y0OWI3ZjItMTliOS00NmMzLTg0MDgtNjJjYjRlYmE0ZDY1IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Risk analysis in the workspace": {
+          "dashId": "Risk analysis in the workspace",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYmE3ODI5MjEtZDFhZS00N2NkLWE4NDItZTBhYzFlMjhjMWRiIiwidCI6IjkyNWJkNTViLTA1MjEtNDAwMy1iN2M5LWMzZTY4MzY3ZDcyNCIsImMiOjh9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Accounts Receivable Dashboard": {
+          "dashId": "Accounts Receivable Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMmM2OWQ3ZWItZDBmNS00ZjUyLTk2NTMtOTZhNGQwM2Y1ZjhkIiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Accounts Receivable": {
+          "dashId": "Accounts Receivable",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYWUzNGRkZjktMWVmOS00NWYxLTg4MjQtZGE0YTZlMjMwNjlhIiwidCI6IjA2ZjY4MmU3LWFkOGMtNDQ4ZS05MzhhLTg1MmY4MTY1NzVmZiIsImMiOjJ9&embedImagePlaceholder=true",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
         }
       },
       "Financial Reporting": {
@@ -158,6 +198,56 @@
                 "description": "Local sample file"
               }
             ]
+          }
+        },
+        "Financial Performance Dashboard – Advanced Analytics": {
+          "dashId": "Financial Performance Dashboard – Advanced Analytics",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZTFhOWRlMmYtMjljOC00OWZhLWEzM2EtMDNkY2RiZTMzNmM4IiwidCI6ImZiZTRkNDZmLThhYjYtNDBjNS1iMjg4LWRiMDVkYzZhMmI1MCIsImMiOjl9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Business Performance": {
+          "dashId": "Business Performance",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYTBkODhlMTUtMGY1ZS00ZGUyLThkMjMtYTE2YmY4NjEyOWE5IiwidCI6ImE5NDUyNTg2LTJmNGMtNGNiMS04ZDJlLTI2ODkyODllZTcyNiIsImMiOjl9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Profit & Loss (P&L) Statement Dashboard": {
+          "dashId": "Profit & Loss (P&L) Statement Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOGY0YzJlMzktNjM5Mi00ZjVhLWJhNGYtODc0ZGM4OTRlMDViIiwidCI6ImRiNGRmYTQ0LTJhY2YtNGJlZC05ZWQwLTllMjkwYzJlYWRkYyIsImMiOjl9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Financial Performance Overview Dashboard": {
+          "dashId": "Financial Performance Overview Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMWExMmIwYzctMWM2ZC00ZjU0LWI2ZGItNWIwMzAxOTJmOTNiIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Dashboard": {
+          "dashId": "Dashboard",
+          "embedUrl": "https://app.powerbi.com/reportEmbed?reportId=9733564b-24a9-40dc-bcf7-113803fbe529&autoAuth=true&ctid=c1e2da04-87a7-4c79-90a9-0a2a54d6db06",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      },
+      "Accounts Receivable": {
+        "Accounts Receivable Dashboard": {
+          "dashId": "Accounts Receivable Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYWUzNGRkZjktMWVmOS00NWYxLTg4MjQtZGE0YTZlMjMwNjlhIiwidCI6IjA2ZjY4MmU3LWFkOGMtNDQ4ZS05MzhhLTg1MmY4MTY1NzVmZiIsImMiOjJ9&embedImagePlaceholder=true",
+          "description": "",
+          "dataset": {
+            "files": []
           }
         }
       }
@@ -204,6 +294,66 @@
                 "description": "Local sample file"
               }
             ]
+          }
+        },
+        "Sales Performance Dashboard – Executive Decision Makers": {
+          "dashId": "Sales Performance Dashboard – Executive Decision Makers",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNzNmYzc4ODAtYzA2Yy00NDRiLTk4Y2EtZjdkMThmOTdiMTNjIiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      },
+      "Business Performance & Strategy": {
+        "Executive Dashboard – Decision Makers": {
+          "dashId": "Executive Dashboard – Decision Makers",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNjExMDhkYzgtNzFjZC00NWVjLThlZTktYjRiZDhmNzRlNDY2IiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Business Insights Dashboard": {
+          "dashId": "Business Insights Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiODdiYzE5ZWQtYzAyNy00ZWI3LTkxMjQtYjJjMTJiMjBjNWVjIiwidCI6IjA0ZWM2MTA5LTRjNzktNGM3My1hZTcxLWE0NzRjMDlhMWY1YSJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Executive Commentary Dashboard": {
+          "dashId": "Executive Commentary Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMWRkYTc5YzgtYzk5OS00OWU3LWFhZWItMjQ3Y2M3MTVhYWI2IiwidCI6ImY0ZDkxZGM1LWY0MzQtNDBkOC1iZjRhLWYwNTEzZTc0ZWE1NSIsImMiOjN9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Business Overview Dashboard": {
+          "dashId": "Business Overview Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNzMzNGJiM2ItNzk0MS00NWZjLTg1YTYtNThlMjBjZWFmNDcwIiwidCI6Ijc4ZTU2OWJmLWVhOGItNDQyNy1hNzU1LWYwNTg5NWFjYzU0YiIsImMiOjZ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      },
+      "Financial Performance": {
+        "Executive Financial Performance Management Dashboard": {
+          "dashId": "Executive Financial Performance Management Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNzUxMTFkYTYtZWUyZC00YzczLWE0ODEtM2QwZjc3OTI1NmFlIiwidCI6IjI3ODBjOTU4LTc3ODAtNDdjYy1hNmQyLTQ5ZmQ0ZTQ1ODZmMSJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Revenue & Profitability Dashboard": {
+          "dashId": "Revenue & Profitability Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYzlhMDM5ODctNDIyMS00ODNkLWE5NjgtNGVkYjA3MzFjYmE0IiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
           }
         }
       }
@@ -254,7 +404,7 @@
         }
       },
       "Complaints Management": {
-        "Consumer Financial Complaints Analytics": {
+        "Consumer_Financial_Complaints_Analytics": {
           "dashId": "Consumer_Financial_Complaints_Analytics",
           "type": "PowerBI",
           "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOGM2OGFlN2YtZDY2MS00MDA3LTg3NjEtM2VmMjM5NWE4YzVlIiwidCI6IjkyNTcwMDE0LWZmM2QtNDAxMC04MTNkLTQxM2YwZmY5OWQ5MiJ9",
@@ -294,6 +444,14 @@
                 "description": "Local sample file"
               }
             ]
+          }
+        },
+        "Financial Customer Complaints Dashboard": {
+          "dashId": "Financial Customer Complaints Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZWEyN2UwMTQtMDVlMC00Yzk4LWI5ZWUtNmVlZWJiOWRhNDgyIiwidCI6ImFlNmU5ZGFmLWNlMjMtNDc2MC1hNDU5LWIwYzAzNDEyM2NmZCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
           }
         }
       }
@@ -340,6 +498,16 @@
                 "description": "Local sample file"
               }
             ]
+          }
+        }
+      },
+      "Data Analytics & User Insights": {
+        "User Activity Analytics Dashboard": {
+          "dashId": "User Activity Analytics Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiM2VhOTY3NWYtNWJkOS00MTI4LTliNjktOTllYTE1NTE4NjQ4IiwidCI6IjA0ZWM2MTA5LTRjNzktNGM3My1hZTcxLWE0NzRjMDlhMWY1YSJ9&pageName=ReportSection05ffb1ab94b7f071e6b6",
+          "description": "",
+          "dataset": {
+            "files": []
           }
         }
       }
@@ -398,6 +566,40 @@
           "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZWZlODMwNGItZWE1Yi00YThkLWI2MTAtN2Q2ZThkZGU2YTQ4IiwidCI6ImE3NjhlZmQ4LTAxYzEtNDVmMC1hMzc2LWY1YjJiNjBlMzM2MiJ9&pageName=4b6017c621d67ed4bce9",
           "description": "HR Analytics Dashboard",
           "dataset": {
+            "files": []
+          }
+        },
+        "HR Retention & Engagement Dashboard": {
+          "dashId": "HR Retention & Engagement Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYjNlN2QwZGUtM2JlNS00OWQzLWIxZmUtOTZhM2ZhMTQyNTBkIiwidCI6ImE5NDUyNTg2LTJmNGMtNGNiMS04ZDJlLTI2ODkyODllZTcyNiIsImMiOjl9",
+          "description": "HR Retention & Engagement Dashboard",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Attrition Rate Analysis Dashboard": {
+          "dashId": "Attrition Rate Analysis Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMWM4YjliNzktNzM1NC00MDdmLTljZTAtZjg5M2U5ZmUwMmI5IiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      },
+      "Compensation & Workforce Insights": {
+        "Salaries in Tech Industry Dashboard": {
+          "dashId": "Salaries in Tech Industry Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNWUzN2Q1YTItZmVmNy00ODM1LTg5YjUtMWE5YzM2ZjUwNDg5IiwidCI6IjEyMDFlNjcwLTI4YjQtNDg1ZC05OTNhLWIxYzU0OGRhMmZhYiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "HR_Analytics_Dashboard": {
+          "dashId": "HR_Analytics_Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMzc3NjkzOTQtMzU1Ny00OTE3LTgwMDQtYjZhMmMwN2NkMDBiIiwidCI6ImI2NDE3Y2QwLTFmNzMtNDQ3MS05YTM5LTIwOTUzODIyYTM0YSIsImMiOjN9&embedImagePlaceholder=true",
+          "description": "",
+          "dataset": {
             "files": [
               {
                 "id": "8-HR_Analytics_Dashboard",
@@ -432,6 +634,24 @@
                 "description": "Local sample file"
               }
             ]
+          }
+        }
+      },
+      "Talent Acquisition": {
+        "Recruitment Analytics Dashboard": {
+          "dashId": "Recruitment Analytics Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZGNiYWNjODctZjM5My00NjMzLTllZjItZGM2NWM4YzM1OTc3IiwidCI6IjQ5MzkwMzQ4LTk2ZGMtNDZhZC05YTYyLWMxMDQzMDIwZmQ2MyJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "HR Recruitment Analysis Dashboard": {
+          "dashId": "HR Recruitment Analysis Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOTczN2U1NDktOGQ5YS00ODUyLTgyMDMtZmM1ZWM5ZWJmZWVhIiwidCI6IjkxMTA0MDg5LWIzZWUtNGE0Mi1iM2IyLTY5YzdmMjMwNzFmYyJ9",
+          "description": "",
+          "dataset": {
+            "files": []
           }
         }
       }
@@ -481,45 +701,11 @@
           }
         },
         "Supply Chain Performance Dashboard": {
-          "dashId": "Supply_Chain_Performance_Dashboard",
-          "type": "PowerBI",
-          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiN2ExM2VjZjItNWY4Mi00NTZkLWIzZmMtNGM3MDgxZjg5ZjUzIiwidCI6ImE3NjhlZmQ4LTAxYzEtNDVmMC1hMzc2LWY1YjJiNjBlMzM2MiJ9&pageName=1673a0bd1995bd071d01",
-          "description": "Supply Chain Performance Dashboard",
+          "dashId": "Supply Chain Performance Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZWQzYmIyNmQtZmFkNy00Njc3LThkNjktODQyYWEwODhmY2EyIiwidCI6ImZlODJhNjdjLWZhYTctNGQ5YS1iYmZhLTdkMjViNzA0N2I0MSIsImMiOjN9",
+          "description": "",
           "dataset": {
-            "files": [
-              {
-                "id": "10-Supply_Chain_Performance_Dashboard",
-                "name": "10-Supply_Chain_Performance_Dashboard",
-                "type": "local",
-                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "relativePath": "2025/Folder A/A",
-                "description": "Local sample file"
-              },
-              {
-                "id": "24-Supply_Chain_Performance_Dashboard",
-                "name": "24-Supply_Chain_Performance_Dashboard",
-                "type": "external",
-                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "relativePath": "2025/Folder A/B",
-                "description": "Local sample file"
-              },
-              {
-                "id": "38-Supply_Chain_Performance_Dashboard",
-                "name": "38-Supply_Chain_Performance_Dashboard",
-                "type": "external",
-                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "relativePath": "2025/Folder A/B",
-                "description": "Local sample file"
-              },
-              {
-                "id": "52-Supply_Chain_Performance_Dashboard",
-                "name": "52-Supply_Chain_Performance_Dashboard",
-                "type": "local",
-                "url": "https://1drv.ms/x/c/bccc85efa2bda0a5/EVr_KhVRaOJAs0kmNvI3OI8BM_B1lL-LJiqx6XMAgVRbcA",
-                "relativePath": "2025/Folder A/A",
-                "description": "Local sample file"
-              }
-            ]
+            "files": []
           }
         },
         "Supply chain Dashboard": {
@@ -563,10 +749,58 @@
               }
             ]
           }
+        },
+        "Inventory Optimization Dashboard": {
+          "dashId": "Inventory Optimization Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYTk2OTcyMWQtOGNmNC00NGJiLThjODMtMGFkN2JjNzJkYzBhIiwidCI6ImE5NDUyNTg2LTJmNGMtNGNiMS04ZDJlLTI2ODkyODllZTcyNiIsImMiOjl9",
+          "description": "Inventory Optimization Dashboard",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Inventory Analysis Dashboard": {
+          "dashId": "Inventory Analysis Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZTcxMTBhYTktNTAwYy00OGU3LWI0Y2MtMDExZTJkZDBiMzQzIiwidCI6ImE5NDUyNTg2LTJmNGMtNGNiMS04ZDJlLTI2ODkyODllZTcyNiIsImMiOjl9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Sales and Shipping Dashboard": {
+          "dashId": "Sales and Shipping Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMzhkNDExYzMtN2QxZS00YmM5LTg0Y2UtZDk0ZWUzYTBlNWQ1IiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Procurement Dashboard": {
+          "dashId": "Procurement Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiM2Q5YTMwNjEtZDAyOS00YTMyLTk3NDgtZDEyNmFlYTdlZjE2IiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Logistics Tracker Dashboard": {
+          "dashId": "Logistics Tracker Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYzU0ODI4NWMtY2I3MS00NjM4LTljNWQtNWNkMTMxOGI0ZjI0IiwidCI6ImE5NDUyNTg2LTJmNGMtNGNiMS04ZDJlLTI2ODkyODllZTcyNiIsImMiOjl9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Supply Chain Analytics Dashboard": {
+          "dashId": "Supply Chain Analytics Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMjc1ZGU5NmEtYWZiYi00MDU3LTk4NWMtM2M5ZGJkOTkxY2YzIiwidCI6IjlmODRlZTRiLWJlZTMtNDJmNy1iODRjLWU1N2U1ZTkyZjEwNSJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
         }
       },
       "Project Management / PMO": {
-        "Project Management Dashboard": {
+        "Project_Management_Dashboard": {
           "dashId": "Project_Management_Dashboard",
           "type": "PowerBI",
           "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMWVhZjA4ZjctOWY1My00ODI2LTk0NzEtZDYzMGMyZmRiOTY3IiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
@@ -606,6 +840,40 @@
                 "description": "Local sample file"
               }
             ]
+          }
+        },
+        "Procurement Dashboard": {
+          "dashId": "Procurement Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiM2Q5YTMwNjEtZDAyOS00YTMyLTk3NDgtZDEyNmFlYTdlZjE2IiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Project Management Dashboard": {
+          "dashId": "Project Management Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiY2MyZTRlZjgtMWM1MC00NWY0LWFlNmQtZWZiNDQ4OGZjNGQ0IiwidCI6IjBlMGNiMDYwLTA5YWQtNDlmNS1hMDA1LTY4YjliNDlhYTFmNiIsImMiOjR9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Earned Value Management (EVM) Dashboard": {
+          "dashId": "Earned Value Management (EVM) Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZGUzYmVmMmUtOWJjZS00NzM5LWE3ZjUtZDNkZWNjN2EzY2M0IiwidCI6IjlkMjg5NTI5LTJmMjItNGQ1ZC04MzU4LTRlYjFkNGVmYjRiMCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      },
+      "Inventory & Warehouse Management": {
+        "Internal Stock Control & Consumption Dashboard": {
+          "dashId": "Internal Stock Control & Consumption Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZjY5YzQ3YjQtZGQ5Yi00Mjk1LWE2ZDEtNmU4MjczNmNiMmJlIiwidCI6ImQ5ZDE4ZGQzLWQwMTItNGFjNS04NWViLTM2Yzc5MzZkOWRlMCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
           }
         }
       }
@@ -653,6 +921,22 @@
               }
             ]
           }
+        },
+        "Retail Dashboard": {
+          "dashId": "Retail Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYmNiYzhlZTAtYjY4Yy00ODMzLTg0ZDctMWY0ZTdjNjFiZGVhIiwidCI6ImIwZmUxZWI5LTJhZjQtNDNjNi1hMjQ1LWI2MzMwMTY5OGJmZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "New Market Supermarket Sales Dashboard": {
+          "dashId": "New Market Supermarket Sales Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOWFlNjgyYTAtNjIyZi00YWY5LTgxMTAtMzYxYmMyYTkzNGJjIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
         }
       },
       "Sales Performance": {
@@ -696,6 +980,168 @@
                 "description": "Local sample file"
               }
             ]
+          }
+        },
+        "Business Performance Dashboard – Sales & Orders": {
+          "dashId": "Business Performance Dashboard – Sales & Orders",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNjIxYmYzODUtZTkzZi00YTJlLWFhM2QtZDhhMjZmNjk1ZmI1IiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Performance Comparison Dashboard": {
+          "dashId": "Performance Comparison Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNTNkMWIzNjktZDE2ZS00Yjg0LWI1ZWMtZDQwNzAzYTE4YWExIiwidCI6ImQ4ZTFiMDVlLTcwYWEtNGVmNy1iODc4LTQ2NmI2ODhmOTUyZiJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Product Performance Dashboard": {
+          "dashId": "Product Performance Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYjczZjc5Y2ItYWY0ZC00NzY0LWI2OTgtYThhYWE3ZjUyODMwIiwidCI6IjA0ZWM2MTA5LTRjNzktNGM3My1hZTcxLWE0NzRjMDlhMWY1YSJ9&pageName=9087c595fcdf6b6e09d7",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Sales Pipeline from CRM Data Dashboard": {
+          "dashId": "Sales Pipeline from CRM Data Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYWJmNDMyOTktY2FlNS00YTI1LWJlYTMtMTZhODI0MTRjOGUxIiwidCI6IjY4ZDQ1MzNjLWVhZTYtNDgzMy05OWNjLTdhOTcwNGFjODcwYiIsImMiOjZ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Sales Performance Dashboard": {
+          "dashId": "Sales Performance Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMmZlNzQ3ZTQtN2FjMi00NmE1LThiZjgtMWJlZTI2ZWJjOTkyIiwidCI6IjQ0ODI2YzYyLTA3MWEtNDY0YS05ZjA2LTk5ZmFlN2IwZDY2ZiIsImMiOjEwfQ%3D%3D",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Sales & Marketing Analysis Dashboard": {
+          "dashId": "Sales & Marketing Analysis Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYTc2ZWI4YjAtNTY3NS00NTE5LThhMzYtODIyNDY1MjMxOTUyIiwidCI6IjkxMTA0MDg5LWIzZWUtNGE0Mi1iM2IyLTY5YzdmMjMwNzFmYyJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Call and Sales Dashboard": {
+          "dashId": "Call and Sales Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOThkNWIwZmEtNzE5Ny00YzA1LWFjNmEtNTljZDA3NDk4NzIwIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Monthly Sales": {
+          "dashId": "Monthly Sales",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYmVlNTI0OGYtMjU0Ny00OWJkLTk5MDctYjYwNTQ5ZDc0OTNjIiwidCI6ImUyMTlhYzJmLTcwYzEtNGEwNS1iNDY1LWM5ZWUzMTY2ZjFjYyIsImMiOjF9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Sales Overview": {
+          "dashId": "Sales Overview",
+          "embedUrl": "https://community.fabric.microsoft.com/t5/Data-Stories-Gallery/Sales-Overview/td-p/4113467",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Sales Regional": {
+          "dashId": "Sales Regional",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiZGMxY2U5ODctZjY3MC00ZmU0LWJhMDktM2U2YWYyYjgxNzFjIiwidCI6ImNlYjYwMzNmLTdiM2EtNDE2ZS04ODI5LWY3MDgzMzQ3NDYwYSJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      },
+      "Sales & Inventory Performance": {
+        "Sales & Inventory KPI Dashboard": {
+          "dashId": "Sales & Inventory KPI Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiOGJkNzJjZTYtMmFkMy00Y2NlLTlhNzAtYzY2NDE1MzEwYzAxIiwidCI6ImE5NDUyNTg2LTJmNGMtNGNiMS04ZDJlLTI2ODkyODllZTcyNiIsImMiOjl9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Sales and Inventory Analysis": {
+          "dashId": "Sales and Inventory Analysis",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiN2EwMDJjYzUtZDVjZC00YmUyLTk4ZDYtOWJlNTVkMjE0NzdhIiwidCI6IjNhOTI1M2YyLWEzYTItNDE0Mi1iYTkzLWU2MGNmZjMwNmJhZSIsImMiOjEwfQ%3D%3D",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      },
+      "Customer Relationship Management (CRM)": {
+        "CRM Sales Management & Revenue Growth Dashboard": {
+          "dashId": "CRM Sales Management & Revenue Growth Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYTU5ODg2ZDEtMThlYS00YTg3LWI0MzMtOWFkNTI3YTEzNDVjIiwidCI6ImZjNTIzNTI4LTNkMzgtNGNhMy05NGRkLTU5NjIzMDJkMzBlOCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "CRM Dashboard": {
+          "dashId": "CRM Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNzU3MjUxMzYtYmZiYS00OGU3LTg2YmItYWYyMWJhNTI1N2FlIiwidCI6ImRmODY3OWNkLWE4MGUtNDVkOC05OWFjLWM4M2VkN2ZmOTVhMCJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Sales CRM Analysis Dashboard": {
+          "dashId": "Sales CRM Analysis Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYjI4N2U3YTktY2I1Yy00ZGNkLWJhNGItMjc0NjVhZTM4MDVhIiwidCI6IjkxMTA0MDg5LWIzZWUtNGE0Mi1iM2IyLTY5YzdmMjMwNzFmYyJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      }
+    },
+    "Marketing": {
+      "Campaign Performance": {
+        "Pre and Post Marketing Campaign Insights Dashboard": {
+          "dashId": "Pre and Post Marketing Campaign Insights Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiMWM3ODJlODUtN2MyZC00ZmNlLWJjZTktZjRmZWVhMGJlZDRkIiwidCI6IjkwZTJhYjlkLWYzY2ItNDZjMS05YWFiLWM5YTY1YmQ0ZTEzOSIsImMiOjJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Marketing Campaign Dashboard": {
+          "dashId": "Marketing Campaign Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiNGI5NmI4MzYtNDFmNy00N2RlLTk4N2UtMjlhYTg1Mjk2MzhhIiwidCI6ImE5NDUyNTg2LTJmNGMtNGNiMS04ZDJlLTI2ODkyODllZTcyNiIsImMiOjl9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        }
+      },
+      "Consumer Insights & Engagement": {
+        "Sales & Marketing Analysis Dashboard": {
+          "dashId": "Sales & Marketing Analysis Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiYTc2ZWI4YjAtNTY3NS00NTE5LThhMzYtODIyNDY1MjMxOTUyIiwidCI6IjkxMTA0MDg5LWIzZWUtNGE0Mi1iM2IyLTY5YzdmMjMwNzFmYyJ9",
+          "description": "",
+          "dataset": {
+            "files": []
+          }
+        },
+        "Marketing Sentiment Analysis Dashboard": {
+          "dashId": "Marketing Sentiment Analysis Dashboard",
+          "embedUrl": "https://app.fabric.microsoft.com/view?r=eyJrIjoiODVjZThlY2ItYTMyMS00MWQ2LThiNmYtMmJjODY4OTYwZGEyIiwidCI6ImUyMTlhYzJmLTcwYzEtNGEwNS1iNDY1LWM5ZWUzMTY2ZjFjYyIsImMiOjF9",
+          "description": "",
+          "dataset": {
+            "files": []
           }
         }
       }
