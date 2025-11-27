@@ -561,10 +561,7 @@ export default function DataManager() {
     <ResponsiveContainer>
     <div className="max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8 py-6">
       <div className="flex items-start justify-between gap-4 mb-4">
-        <div>
-          <h1 className="text-lg font-semibold">Data Manager — Explorer</h1>
-          <p className="text-xs text-slate-500 mt-1">Left: explorer • Middle: focused dashboard • Right: files</p>
-        </div>
+        
 
         <div className="flex items-center gap-2">
           <div className="flex items-center bg-white border rounded-md px-2 py-1 shadow-sm">
